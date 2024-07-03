@@ -275,7 +275,7 @@ Mᴏᴠɪᴇs Nᴏᴛ Aᴠᴀɪʟᴀʙʟᴇ Rᴇᴀsᴏɴ:
 🗂 𝗙𝗶𝗹𝗲: <b><font class=smcp>{file_name}</font></b>
 📀 𝗦𝗶𝘇𝗲: <b><font class=smcp>{file_size}</font></b>
 
-<b>🔰 Cʀᴇᴀᴛᴏʀ : Tech Article Tamil
+<b>🔰 Cʀᴇᴀᴛᴏʀ : <a href="https://t.me/+mChwkSJTfQMwOWQ9">Tech Article Tamil</a>
 🔰 Cʜᴀɴɴᴇʟ : <a href="https://t.me/+tUc-cLUAq4s5YzBl">𝐌𝐎𝐕𝐈𝐄𝐒 𝐂𝐇𝐀𝐍𝐍𝐄𝐋</a>
 🔰 Gʀᴏᴜᴘ : <a href="https://t.me/+mvMoUbMzu_QzOGE9">𝐌𝐎𝐕𝐈𝐄 𝐑𝐄𝐐𝐔𝐄𝐒𝐓 𝐆𝐑𝐎𝐔𝐏</a></b>"""
     
