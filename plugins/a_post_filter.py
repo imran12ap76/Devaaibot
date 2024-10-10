@@ -75,7 +75,7 @@ async def pm_next_page(bot, query):
             InlineKeyboardButton(f"❄️ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total / 6)}", callback_data="pages"),
             InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"pmnext_{next_offset}_{msg_id}_{chat_id}")
         ])
-     try:
+    try:
         await query.message.edit(text=movie_text, reply_markup=InlineKeyboardMarkup(btns))
     except MessageNotModified:
         pass
