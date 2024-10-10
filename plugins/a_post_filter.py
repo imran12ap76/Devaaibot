@@ -27,14 +27,15 @@ async def post_filter(client, message):
     files, offset, total_results = await get_search_results(text, max_results=6)
     if not files:
         return
-    movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>'
+    movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>\n\n
+    '
     for file in files:
-        movie_text += f"➡️ <a href='https://t.me/{client.me.username}?start=file_{file.file_id}'>{file.file_name}</a> {get_size(file.file_size)}\n\n"
+        movie_text += f"➡️ <a href='https://t.me/{client.me.username}?start=file_{file.file_id}'>{file.file_name} {get_size(file.file_size)}</a>\n\n"
     btns = []
     if offset != "":
         btns.append(
             [InlineKeyboardButton(text=f"❄️ ᴩᴀɢᴇꜱ 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
-            InlineKeyboardButton(text="ɴᴇxᴛ ➡️", callback_data=f"pmnext_{offset}_{msg_id}_{chat_id}")]
+            InlineKeyboardButton(text="ɴᴇxᴛ ➡️", callback_data=f"postnext_{offset}_{msg_id}_{chat_id}")]
         )
     else:
         btns.append(
@@ -42,8 +43,8 @@ async def post_filter(client, message):
         )
     await message.reply_text(movie_text, reply_markup=InlineKeyboardMarkup(btns))
 
-@Client.on_callback_query(filters.regex('^pmnext'))
-async def pm_next_page(bot, query):
+@Client.on_callback_query(filters.regex('^postnext'))
+async def pm_post_next_page(bot, query):
     _, offset, msg_id, chat_id = query.data.split('_')
     try: offset = int(off_set)
     except: offset = 0
@@ -62,18 +63,18 @@ async def pm_next_page(bot, query):
     else: off_set = offset - 6
     if next_offset == 0:
         btns.append(
-            [InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"pmnext_{off_set}_{msg_id}_{chat_id}"),
+            [InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}"),
              InlineKeyboardButton(f"❄️ ᴩᴀɢᴇꜱ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages")]                                  
         )
     elif off_set is None:
         btns.append(
             [InlineKeyboardButton(f"❄️ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages"),
-             InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"pmnext_{next_offset}_{msg_id}_{chat_id}")])
+             InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}")])
     else:
         btns.append([
-            InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"pmnext_{off_set}_{msg_id}_{chat_id}"),
+            InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}"),
             InlineKeyboardButton(f"❄️ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages"),
-            InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"pmnext_{next_offset}_{msg_id}_{chat_id}")
+            InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}")
         ])
     try:
         await query.message.edit(text=movie_text, reply_markup=InlineKeyboardMarkup(btns))
