@@ -76,7 +76,7 @@ async def pm_next_page(bot, query):
             InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"pmnext_{next_offset}_{msg_id}_{chat_id}")
         ])
      try:
-        await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(btns))
+        await query.edit(text=movie_text, reply_markup=InlineKeyboardMarkup(btns))
     except MessageNotModified:
         pass
     await query.answer()
