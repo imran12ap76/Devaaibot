@@ -8,7 +8,7 @@ from utils import get_size
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
     if await manual_filters(client, message):
-        return True
+        return
     await group_post_filter(client, message)
 
 async def group_post_filter(client, message):
