@@ -67,22 +67,8 @@ async def save_file(media):
 
 
 
-async def get_search_results(chat_id, query, file_type=None, max_results=10, offset=0, filter=False):
+async def get_search_results(query, file_type=None, max_results=6, offset=0, filter=False):
     """For given query return (results, next_offset)"""
-    if chat_id is not None:
-        settings = await get_settings(int(chat_id))
-        try:
-            if settings['max_btn']:
-                max_results = 10
-            else:
-                max_results = int(MAX_B_TN)
-        except KeyError:
-            await save_group_settings(int(chat_id), 'max_btn', False)
-            settings = await get_settings(int(chat_id))
-            if settings['max_btn']:
-                max_results = 10
-            else:
-                max_results = int(MAX_B_TN)
     query = query.strip()
     #if filter:
         #better ?
@@ -160,6 +146,21 @@ async def get_bad_files(query, file_type=None, filter=False):
     files = await cursor.to_list(length=total_results)
 
     return files, total_results
+
+async def get_search_counts(query):
+    query = query.strip()
+    if not query:
+        raw_pattern = '.'
+    elif ' ' not in query:
+        raw_pattern = r'(\b|[\.\+\-_])' + query + r'(\b|[\.\+\-_])'
+    else:
+        raw_pattern = query.replace(' ', r'.*[\s\.\+\-_]')
+    
+    try:
+        regex = re.compile(raw_pattern, flags=re.IGNORECASE)
+    except:
+        return []
+    return await Media.count_documents(filter)
 
 async def get_file_details(query):
     filter = {'file_id': query}
