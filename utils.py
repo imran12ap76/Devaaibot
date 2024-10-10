@@ -1,6 +1,6 @@
 import logging
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
-from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM, SHORTLINK_URL, SHORTLINK_API, IS_SHORTLINK, LOG_CHANNEL, TUTORIAL, GRP_LNK, CHNL_LNK, CUSTOM_FILE_CAPTION, SECOND_SHORTLINK_URL, SECOND_SHORTLINK_API
+from info import ADMINS, AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM, SHORTLINK_URL, SHORTLINK_API, IS_SHORTLINK, LOG_CHANNEL, TUTORIAL, GRP_LNK, CHNL_LNK, CUSTOM_FILE_CAPTION, SECOND_SHORTLINK_URL, SECOND_SHORTLINK_API, REQ_CHANNEL1, REQ_CHANNEL2, REQ_CHANNEL3
 from imdb import Cinemagoer 
 import asyncio
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
@@ -38,6 +38,9 @@ SECOND_SHORTENER = {}
 SMART_OPEN = '“'
 SMART_CLOSE = '”'
 START_CHAR = ('\'', '"', SMART_OPEN)
+temp_files = {}
+global_rsub = {}
+global_rsub_invite_links = {}
 
 # temp db for banned 
 class temp(object):
@@ -52,6 +55,53 @@ class temp(object):
     GETALL = {}
     SHORT = {}
     SETTINGS = {}
+
+async def is_user_subscribed(bot, message):
+    if not (REQ_CHANNEL1 or REQ_CHANNEL2 or REQ_CHANNEL3):
+        return True
+    if message.from_user.id in ADMINS:
+        return True
+    try:
+        current_channels = global_rsub[message.from_user.id]
+        if len(current_channels) >= 3:
+            return True
+        channel_id = len(current_channels) + 1 
+            
+    except:
+        channel_id = 1
+        global_rsub[message.from_user.id] = []
+
+    CHAT_ID = REQ_CHANNEL1 if channel_id == 1 else REQ_CHANNEL2 if channel_id == 2 else REQ_CHANNEL3
+
+    try:
+        user = await bot.get_chat_member(CHAT_ID, message.from_user.id)
+    except Exception as e:
+        pass
+    else:
+        if user.status != enums.ChatMemberStatus.BANNED:
+            return True
+
+    try:
+        invite_link = global_rsub_invite_links[CHAT_ID]
+    except KeyError:
+        invite_link = await create_invite_link(bot, CHAT_ID)
+    
+    text = """**Please click the button below to join the channel and get access to movies!**"""
+    buttons = [
+        [InlineKeyboardButton("📢 Request to Join Channel 📢", url=invite_link)]
+    ]
+    await message.reply(
+        text=text,
+        quote=True,
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
+
+    return False
+
+async def create_invite_link(bot, chat, creates_join_request=True):
+    link = await bot.create_chat_invite_link(chat_id=chat, creates_join_request=creates_join_request)
+    global_rsub_invite_links[chat] = link.invite_link
+    return link.invite_link
 
 async def is_subscribed(bot, query):
     try:

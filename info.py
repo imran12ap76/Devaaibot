@@ -88,6 +88,11 @@ LANGUAGES = ["malayalam", "tamil" ,"english", "hindi", "telugu", "kannada"]
 
 SEASONS = ["season 1" , "season 2" , "season 3" , "season 4", "season 5" , "season 6" , "season 7" , "season 8" , "season 9" , "season 10"]
 
+#RSUB
+REQ_CHANNEL1 = -1002306697639
+REQ_CHANNEL2 = -1002295982531
+REQ_CHANNEL3 = -1002453389461
+
 LOG_STR = "Current Cusomized Configurations are:-\n"
 LOG_STR += ("IMDB Results are enabled, Bot will be showing imdb details for you queries.\n" if IMDB else "IMBD Results are disabled.\n")
 LOG_STR += ("P_TTI_SHOW_OFF found , Users will be redirected to send /start to Bot PM instead of sending file file directly\n" if P_TTI_SHOW_OFF else "P_TTI_SHOW_OFF is disabled files will be send in PM, instead of sending start.\n")
