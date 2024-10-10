@@ -16,7 +16,7 @@ async def group_post_filter(client, message):
     count = await get_search_counts(text)
     if not count:
         return
-    new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© Tamilgram"
+    new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© Tamilgram</b>"
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{client.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
     
 async def post_filter(client, message):
