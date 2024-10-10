@@ -160,6 +160,7 @@ async def get_search_counts(query):
         regex = re.compile(raw_pattern, flags=re.IGNORECASE)
     except:
         return []
+    filter = {'file_name': regex}
     return await Media.count_documents(filter)
 
 async def get_file_details(query):
