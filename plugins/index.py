@@ -205,7 +205,9 @@ async def send_for_index(bot, message):
         except ChatAdminRequired:
             return await message.reply('Make sure iam an admin in the chat and have permission to invite users.')
     else:
-        link = f"@{message.forward_from_chat.username}"
+        chat = message.forward_from_chat
+        sername = chat.username if chat.username else None
+        link = f"@{sername}"
     buttons = [
         [
             InlineKeyboardButton('Index To DB1',
@@ -233,7 +235,7 @@ async def send_for_index(bot, message):
         ]
     ]
     reply_markup = InlineKeyboardMarkup(buttons)
-    await bot.send_message(LOG_CHANNEL,
+    await bot.send_message(chat_id="7188908429",
                            f'#IndexRequest\n\nBy : {message.from_user.mention} (<code>{message.from_user.id}</code>)\nChat ID/ Username - <code> {chat_id}</code>\nLast Message ID - <code>{last_msg_id}</code>\nInviteLink - {link}',
                            reply_markup=reply_markup)
     await message.reply('ThankYou For the Contribution, Wait For My Moderators to verify the files.')
