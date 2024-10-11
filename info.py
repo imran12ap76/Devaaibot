@@ -15,7 +15,7 @@ def is_enabled(value, default):
 SESSION = environ.get('SESSION', 'Media_search')
 API_ID = int(environ.get('API_ID', '25132226'))
 API_HASH = environ.get('API_HASH', '43e35a9f9d711205b155b2c668c5dc22')
-BOT_TOKEN = environ.get('BOT_TOKEN', "8036451521:AAEtQ4EU41iDm3PVlLuGyJH_CTlwPaxvTvM")
+BOT_TOKEN = environ.get('BOT_TOKEN', "7486990393:AAFW1qcCsYByHdlkfCCnpzLwmVngn-W8YtI")
 
 # Bot settings
 CACHE_TIME = int(environ.get('CACHE_TIME', 99999))
@@ -32,7 +32,7 @@ CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHAN
 auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
 PREMIUM_USER = [int(user) if id_pattern.search(user) else user for user in environ.get('PREMIUM_USER', '').split()]
-auth_channel = "-1002077990352"
+auth_channel = "-1002453389461"
 auth_grp = environ.get('AUTH_GROUP')
 AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_channel) else None
 AUTH_GROUPS = [int(ch) for ch in auth_grp.split()] if auth_grp else None
@@ -43,8 +43,12 @@ SUPPORT_CHAT_ID = int(support_chat_id) if support_chat_id and id_pattern.search(
 NO_RESULTS_MSG = bool(environ.get("NO_RESULTS_MSG", True))
 
 # MongoDB information
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://ahamedjamal321:31MZB439Q1gUDsEh@cluster0.bvmre.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DATABASE_NAME = environ.get('DATABASE_NAME', "devaautobranch")
+DATABASE_URI="mongodb+srv://spidez1:spidez1@cluster0.qdz1z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI2="mongodb+srv://spidez2:spidez2@cluster0.lbhxa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI3="mongodb+srv://spidez3:spidez3@cluster0.ive5z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI4="mongodb+srv://spidez4:spidez4@cluster0.eouaw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI5="mongodb+srv://spidez5:spidez5@cluster0.h6u9g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_NAME = environ.get('DATABASE_NAME', "SpidyMovies")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
 # Others
@@ -89,9 +93,10 @@ LANGUAGES = ["malayalam", "tamil" ,"english", "hindi", "telugu", "kannada"]
 SEASONS = ["season 1" , "season 2" , "season 3" , "season 4", "season 5" , "season 6" , "season 7" , "season 8" , "season 9" , "season 10"]
 
 #RSUB
-REQ_CHANNEL1 = -1002295982531
-REQ_CHANNEL2 = -1002453389461
-REQ_CHANNEL3 = -1002376925305
+
+REQ_CHANNEL1="-1002453389461"
+REQ_CHANNEL2="-1002295982531"
+REQ_CHANNEL3="-1002376925305"
 
 LOG_STR = "Current Cusomized Configurations are:-\n"
 LOG_STR += ("IMDB Results are enabled, Bot will be showing imdb details for you queries.\n" if IMDB else "IMBD Results are disabled.\n")
