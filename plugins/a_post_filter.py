@@ -19,8 +19,7 @@ async def group_post_filter(client, message):
     new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© Tamilgram</b>"
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{client.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
     
-
-@Client.on_callback_query(filters.regex('^postnext') & group=-1)
+@Client.on_callback_query(filters.create(lambda _, __, query: query.data.startswith("postnext")))
 async def pm_post_next_page(bot, query):
     _, offset, msg_id, chat_id = query.data.split('_')
     try: offset = int(off_set)
