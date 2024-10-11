@@ -57,6 +57,7 @@ class temp(object):
     SETTINGS = {}
 
 async def is_user_subscribed(bot, message):
+    logger.info("Checking User Status")
     if not (REQ_CHANNEL1 or REQ_CHANNEL2 or REQ_CHANNEL3):
         return True
     if message.from_user.id in ADMINS:

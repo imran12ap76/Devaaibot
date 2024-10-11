@@ -125,6 +125,7 @@ async def start(client, message):
         file_id = data
         pre = ""
     if not await is_user_subscribed(client, message):
+        logger.info('User Not Subscribed')
         temp_files[message.from_user.id] = file_id
         return
     if data.split("-", 1)[0] == "BATCH":

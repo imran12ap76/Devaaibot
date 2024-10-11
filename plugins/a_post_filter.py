@@ -19,28 +19,6 @@ async def group_post_filter(client, message):
     new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© Tamilgram</b>"
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{client.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
     
-async def post_filter(client, message):
-    command = message.command[1]
-    _, msg_id, chat_id = command.split('_', 2)
-    og_msg = await client.get_messages(int(chat_id), int(msg_id))
-    text = og_msg.text
-    files, offset, total_results = await get_search_results(text, max_results=6)
-    if not files:
-        return
-    movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>\n\n'
-    for file in files:
-        movie_text += f"➡️ <a href='https://t.me/{client.me.username}?start=file_{file.file_id}'>{file.file_name} {get_size(file.file_size)}</a>\n\n"
-    btns = []
-    if offset != "":
-        btns.append(
-            [InlineKeyboardButton(text=f"❄️ ᴩᴀɢᴇꜱ 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
-            InlineKeyboardButton(text="ɴᴇxᴛ ➡️", callback_data=f"postnext_{offset}_{msg_id}_{chat_id}")]
-        )
-    else:
-        btns.append(
-            [InlineKeyboardButton(text="❄️ ᴩᴀɢᴇꜱ 1/1", callback_data="pages")]
-        )
-    await message.reply_text(movie_text, reply_markup=InlineKeyboardMarkup(btns))
 
 @Client.on_callback_query(filters.regex('^postnext'))
 async def pm_post_next_page(bot, query):
@@ -80,3 +58,26 @@ async def pm_post_next_page(bot, query):
     except MessageNotModified:
         pass
     await query.answer()
+
+async def post_filter(client, message):
+    command = message.command[1]
+    _, msg_id, chat_id = command.split('_', 2)
+    og_msg = await client.get_messages(int(chat_id), int(msg_id))
+    text = og_msg.text
+    files, offset, total_results = await get_search_results(text, max_results=6)
+    if not files:
+        return
+    movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>\n\n'
+    for file in files:
+        movie_text += f"➡️ <a href='https://t.me/{client.me.username}?start=file_{file.file_id}'>{file.file_name} {get_size(file.file_size)}</a>\n\n"
+    btns = []
+    if offset != "":
+        btns.append(
+            [InlineKeyboardButton(text=f"❄️ ᴩᴀɢᴇꜱ 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
+            InlineKeyboardButton(text="ɴᴇxᴛ ➡️", callback_data=f"postnext_{offset}_{msg_id}_{chat_id}")]
+        )
+    else:
+        btns.append(
+            [InlineKeyboardButton(text="❄️ ᴩᴀɢᴇꜱ 1/1", callback_data="pages")]
+        )
+    await message.reply_text(movie_text, reply_markup=InlineKeyboardMarkup(btns))
