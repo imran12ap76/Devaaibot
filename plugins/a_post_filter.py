@@ -20,7 +20,7 @@ async def group_post_filter(client, message):
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{client.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
     
 
-@Client.on_callback_query(filters.regex('^postnext'))
+@Client.on_callback_query(filters.regex('^postnext') & group=-1)
 async def pm_post_next_page(bot, query):
     _, offset, msg_id, chat_id = query.data.split('_')
     try: offset = int(off_set)
