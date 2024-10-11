@@ -27,8 +27,7 @@ async def post_filter(client, message):
     files, offset, total_results = await get_search_results(text, max_results=6)
     if not files:
         return
-    movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>\n\n
-    '
+    movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>\n\n'
     for file in files:
         movie_text += f"➡️ <a href='https://t.me/{client.me.username}?start=file_{file.file_id}'>{file.file_name} {get_size(file.file_size)}</a>\n\n"
     btns = []
