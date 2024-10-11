@@ -59,12 +59,15 @@ class temp(object):
 async def is_user_subscribed(bot, message):
     logger.info("Checking User Status")
     if not (REQ_CHANNEL1 or REQ_CHANNEL2 or REQ_CHANNEL3):
+        logger.info("Requests Channels Not Found")
         return True
     if message.from_user.id in ADMINS:
+        logger.info('user in admin list')
         return True
     try:
         current_channels = global_rsub[message.from_user.id]
         if len(current_channels) >= 3:
+            logger.info('user gived requests for 3 channels')
             return True
         channel_id = len(current_channels) + 1 
             
@@ -80,6 +83,7 @@ async def is_user_subscribed(bot, message):
         pass
     else:
         if user.status != enums.ChatMemberStatus.BANNED:
+            logger.info('User joined this channel')
             return True
 
     try:
