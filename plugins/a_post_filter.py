@@ -11,14 +11,27 @@ async def give_filter(client, message):
         return
     await group_post_filter(client, message)
 
+@Client.on_message(filters.private & filters.text & filters.incoming)
+async def givepvt_filter(bot, message):
+    if await manual_filters(bot, message):
+        return
+    await group_post_filter(bot, message)
     
-async def group_post_filter(bot, message):
+async def group_post_filter(client, message):
     text = message.text
     count = await get_search_counts(text)
     if not count:
         return
     new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© Tamilgram</b>"
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{client.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
+
+async def pvt_group_post_filter(bot, message):
+    text = message.text
+    count = await get_search_counts(text)
+    if not count:
+        return
+    new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© Tamilgram</b>"
+    await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{bot.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
     
 @Client.on_callback_query(filters.regex(r"^postnext"))
 async def pm_post_next_page(bot, query):
