@@ -87,7 +87,7 @@ async def is_user_subscribed(bot, message):
             channels = global_rsub.get('user_id', [])
             if CHAT_ID not in channels:
                 channels.append(CHAT_ID)
-                global_rsub[user_id] = channels
+                global_rsub[message.from_user.id] = channels
             
             return True
 
