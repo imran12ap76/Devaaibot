@@ -234,11 +234,10 @@ async def send_for_index(bot, message):
                                  callback_data=f'index#reject#{chat_id}#{message.id}#{message.from_user.id}'),
         ]
     ]
-    reply_markup = InlineKeyboardMarkup(buttons)
+    reply_marku = InlineKeyboardMarkup(buttons)
     await bot.send_message(LOG_CHANNEL,
-                           f'#IndexRequest\n\nBy : {message.from_user.mention} (<code>{message.from_user.id}</code>)\nChat ID/ Username - <code> {chat_id}</code>\nLast Message ID - <code>{last_msg_id}</code>\nInviteLink - {link}',
-                           reply_markup=reply_markup
-                          )
+                           f'#IndexRequest\n\nBy : {message.from_user.mention} (<code>{message.from_user.id}</code>'),
+                           reply_markup=reply_marku)
     await message.reply('ThankYou For the Contribution, Wait For My Moderators to verify the files.')
 
 
