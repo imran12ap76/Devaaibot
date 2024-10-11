@@ -41,7 +41,7 @@ async def send_file(client, user_id, file_id):
     if CUSTOM_FILE_CAPTION:
         try:
             f_caption = CUSTOM_FILE_CAPTION.format(
-                file_name=file.file_name, file_size=get_size(file.file_size), file_caption=file.caption
+                file_name=file.file_name, file_size=get_size(file.file_size), file_caption=file.file_name
             )
         except Exception as e:
             logger.exception(e)
