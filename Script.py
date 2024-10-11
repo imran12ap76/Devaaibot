@@ -191,15 +191,33 @@ Hᴇʟᴘ : <b>Sᴇᴛᴛɪɴɢꜱ</b>
 
 </b>"""
  
-    STATUS_TXT = """<b>⍟─────[ <b>Bᴏᴛ Sᴛᴀᴛᴜs</b> ]─────⍟
-    
-★ ᴛᴏᴛᴀʟ ꜰɪʟᴇꜱ : <code>{}</code>
-★ ᴛᴏᴛᴀʟ ᴜꜱᴇʀꜱ : <code>{}</code>
-★ ᴛᴏᴛᴀʟ ɢʀᴏᴜᴘꜱ : <code>{}</code>
-★ ᴜꜱᴇᴅ ꜱᴛᴏʀᴀɢᴇ: <code>{}</code>
-★ ꜰʀᴇᴇ ꜱᴛᴏʀᴀɢᴇ : <code>{}</code>
+    
+    STATUS_TXT = """📂 𝖳𝗈𝗍𝖺𝗅 𝖥𝗂𝗅𝖾𝗌     - <code>{}</code>
 
-•❅──────✧❅✦❅✧──────❅•</b>"""
+𒆜  𝗗𝗕 1️⃣
+╭ ▸ 𝖴𝗌𝖾𝗋𝗌 : <code>{}</code>
+├ ▸ 𝖢𝗁𝖺𝗍𝗌  : <code>{}</code>
+╰ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code>MB
+
+ 𒆜 𝗗𝗕 2️⃣
+╭ ▸ 𝖳𝗈𝗍𝖺𝗅 𝖥𝗂𝗅𝖾𝗌 :<code>{}</code>
+├ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾 :<code>{}</code>MB
+╰ ▸ Free :<code>{}</code>MB
+
+ 𒆜 𝗗𝗕 3️⃣ 
+╭ ▸ 𝖳𝗈𝗍𝖺𝗅 𝖥𝗂𝗅𝖾𝗌 :<code>{}</code>
+├ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾 :<code>{}</code>MB
+╰ ▸ Free :<code>{}</code>MB
+
+𒆜  𝗗𝗕 4️⃣
+╭ ▸ 𝖳𝗈𝗍𝖺𝗅 𝖥𝗂𝗅𝖾𝗌 :<code>{}</code>
+├ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾 :<code>{}</code>MB
+╰ ▸ Free :<code>{}</code>MB
+
+𒆜 𝗗𝗕 5️⃣
+╭ ▸ 𝖳𝗈𝗍𝖺𝗅 𝖥𝗂𝗅𝖾𝗌 :<code>{}</code>
+├ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾 :<code>{}</code>MB
+╰ ▸ Free :<code>{}</code>MB"""
 
 
     LOG_TEXT_G = """<b>#NewGroup
