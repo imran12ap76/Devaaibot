@@ -84,6 +84,11 @@ async def is_user_subscribed(bot, message):
     else:
         if user.status != enums.ChatMemberStatus.BANNED:
             logger.info('User joined this channel')
+            channels = global_rsub.get('user_id', [])
+            if CHAT_ID not in channels:
+                channels.append(CHAT_ID)
+                global_rsub[user_id] = channels
+            
             return True
 
     try:
