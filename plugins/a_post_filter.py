@@ -33,7 +33,7 @@ async def pvt_group_post_filter(bot, message):
     new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© Tamilgram</b>"
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{bot.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
     
-@Client.on_callback_query(filters.regex(r"^postnext") & filters.group=-1)
+@Client.on_callback_query(filters.regex(r"^postnext"))
 async def pm_post_next_page(bot, query):
     _, offset, msg_id, chat_id = query.data.split('_')
     try: offset = int(off_set)
