@@ -15,7 +15,7 @@ async def give_filter(client, message):
 async def givepvt_filter(bot, message):
     if await manual_filters(bot, message):
         return
-    await group_post_filter(bot, message)
+    await pvt_group_post_filter(bot, message)
     
 async def group_post_filter(client, message):
     text = message.text
