@@ -16,9 +16,6 @@ async def save_group(bot, message):
     r_j_check = [u.id for u in message.new_chat_members]
     if temp.ME in r_j_check:
         if not await db.get_chat(message.chat.id):
-            total=await bot.get_chat_members_count(message.chat.id)
-            r_j = message.from_user.mention if message.from_user else "Anonymous" 
-            await bot.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(message.chat.title, message.chat.id, total, r_j))       
             await db.add_chat(message.chat.id, message.chat.title)
         if message.chat.id in temp.BANNED_CHATS:
             # Inspired from a boat of a banana tree
@@ -44,32 +41,8 @@ async def save_group(bot, message):
         reply_markup=InlineKeyboardMarkup(buttons)
         await message.reply_text(
             text=f"<b>ᴛʜᴀɴᴋ ʏᴏᴜ ꜰᴏʀ ᴀᴅᴅɪɴɢ ᴍᴇ ɪɴ {message.chat.title} ❣️\n\nᴅᴏɴ'ᴛ ꜰᴏʀɢᴇᴛ ᴛᴏ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ. ɪꜰ ʏᴏᴜ ʜᴀᴠᴇ ᴀɴʏ ǫᴜᴇꜱᴛɪᴏɴꜱ & ᴅᴏᴜʙᴛꜱ ᴀʙᴏᴜᴛ ᴜꜱɪɴɢ ᴍᴇ ᴄᴏɴᴛᴀᴄᴛ ꜰʀᴏᴍ ᴀᴅᴍɪɴ & ᴍᴇꜱꜱᴀɢᴇ ʜᴇʀᴇ 👇</b>",
-            reply_markup=reply_markup)
-    else:
-        settings = await get_settings(message.chat.id)
-        if settings["welcome"]:
-            for u in message.new_chat_members:
-                if (temp.MELCOW).get('welcome') is not None:
-                    try:
-                        await (temp.MELCOW['welcome']).delete()
-                    except:
-                        pass
-                temp.MELCOW['welcome'] = await message.reply_video(
-                                                 video=(MELCOW_VID),
-                                                 caption=(script.MELCOW_ENG.format(u.mention, message.chat.title)),
-                                                 reply_markup=InlineKeyboardMarkup(
-                                                                         [[
-                    InlineKeyboardButton('ᴄʜᴀɴɴᴇʟ', url=CHNL_LNK),
-                    InlineKeyboardButton('ɢʀᴏᴜᴘ', url=GRP_LNK)
-                  ]]
-                                                 ),
-                                                 parse_mode=enums.ParseMode.HTML
-                )
-                
-        if settings["auto_delete"]:
-            await asyncio.sleep(600)
-            await (temp.MELCOW['welcome']).delete()
-                
+            reply_markup=reply_markup
+        )
                
 
 
