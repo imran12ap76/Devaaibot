@@ -22,7 +22,7 @@ async def group_post_filter(client, message):
     count = await get_search_counts(text)
     if not count:
         return
-    new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© Tamilgram</b>"
+    new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© @Spidy_Updates</b>"
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{client.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
 
 async def pvt_group_post_filter(bot, message):
@@ -30,7 +30,7 @@ async def pvt_group_post_filter(bot, message):
     count = await get_search_counts(text)
     if not count:
         return
-    new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© Tamilgram</b>"
+    new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© @Spidy_Updates</b>"
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{bot.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
     
 @Client.on_callback_query(filters.regex(r"^postnext"), group=-1)
