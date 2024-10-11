@@ -234,6 +234,99 @@ async def save_file5(media):
             logger.info(f'{getattr(media, "file_name", "NO_FILE")} is saved to database')
             return True, 1
 
+async def get_bad_files(query, file_type=None, filter=False):
+    """For given query return (results, next_offset)"""
+    query = query.strip()
+
+    if not query:
+        raw_pattern = '.'
+    elif ' ' not in query:
+        raw_pattern = r'(\b|[\.\+\-_])' + query + r'(\b|[\.\+\-_])'
+    else:
+        raw_pattern = query.replace(' ', r'.*[\s\.\+\-_]')
+
+    try:
+        regex = re.compile(raw_pattern, flags=re.IGNORECASE)
+    except:
+        return []
+
+    if USE_CAPTION_FILTER:
+        filter = {'file_name': regex}
+    else:
+        filter = {'file_name': regex}
+
+    if file_type:
+        filter['file_type'] = file_type
+
+    total_results_media1 = await Media2.count_documents(filter)
+    total_results_media2 = await Media3.count_documents(filter)
+    total_results_media3 = await Media4.count_documents(filter)
+    total_results_media4 = await Media5.count_documents(filter)
+    total_results = total_results_media1 + total_results_media2 + total_results_media3 + total_results_media4
+
+    cursor_media1 = Media2.find(filter)
+    cursor_media1.sort('$natural', -1)
+    files_media1 = await cursor_media1.to_list(length=total_results_media1)
+
+    cursor_media2 = Media3.find(filter)
+    cursor_media2.sort('$natural', -1)
+    files_media2 = await cursor_media2.to_list(length=total_results_media2)
+
+    cursor_media3 = Media4.find(filter)
+    cursor_media3.sort('$natural', -1)
+    files_media3 = await cursor_media3.to_list(length=total_results_media3)
+
+    cursor_media4 = Media5.find(filter)
+    cursor_media4.sort('$natural', -1)
+    files_media4 = await cursor_media4.to_list(length=total_results_media4)
+    
+    return files_media1, files_media2, files_media3, files_media4, total_results
+    
+async def delete_files_below_threshold(db, threshold_size_mb: int = 40, batch_size: int = 20, chat_id: int = None, message_id: int = None):
+    cursor_media1 = Media2.find({"file_size": {"$lt": threshold_size_mb * 1024 * 1024}}).limit(batch_size // 2)
+    cursor_media2 = Media3.find({"file_size": {"$lt": threshold_size_mb * 1024 * 1024}}).limit(batch_size // 2)
+    cursor_media3 = Media4.find({"file_size": {"$lt": threshold_size_mb * 1024 * 1024}}).limit(batch_size // 2)
+    cursor_media4 = Media5.find({"file_size": {"$lt": threshold_size_mb * 1024 * 1024}}).limit(batch_size // 2)
+    deleted_count_media1 = 0
+    deleted_count_media2 = 0
+    deleted_count_media3 = 0
+    deleted_count_media4 = 0
+    
+    async for document in cursor_media1:
+        try:
+            await Media2.collection.delete_one({"_id": document["file_id"]})
+            deleted_count_media1 += 1
+            print(f'Deleted file from Media: {document["file_name"]}')
+        except Exception as e:
+            print(f'Error deleting file from Media: {document["file_name"]}, {e}')
+
+    async for document in cursor_media2:
+        try:
+            await Media3.collection.delete_one({"_id": document["file_id"]})
+            deleted_count_media2 += 1
+            print(f'Deleted file from Mediaa: {document["file_name"]}')
+        except Exception as e:
+            print(f'Error deleting file from Mediaa: {document["file_name"]}, {e}')
+
+    async for document in cursor_media3:
+        try:
+            await Media4.collection.delete_one({"_id": document["file_id"]})
+            deleted_count_media3 += 1
+            print(f'Deleted file from Media: {document["file_name"]}')
+        except Exception as e:
+            print(f'Error deleting file from Media: {document["file_name"]}, {e}')
+
+    async for document in cursor_media4:
+        try:
+            await Media5.collection.delete_one({"_id": document["file_id"]})
+            deleted_count_media4 += 1
+            print(f'Deleted file from Media: {document["file_name"]}')
+        except Exception as e:
+            print(f'Error deleting file from Media: {document["file_name"]}, {e}')
+
+    deleted_count = deleted_count_media1 + deleted_count_media2 + deleted_count_media3 + deleted_count_media4
+    return deleted_count
+
 async def get_search_results(query, file_type=None, max_results=8, offset=0, filter=False):
     """For given query return (results, next_offset)"""
 
