@@ -95,9 +95,9 @@ SEASONS = ["season 1" , "season 2" , "season 3" , "season 4", "season 5" , "seas
 
 #RSUB
 
-REQ_CHANNEL1="-1002284964307"
-REQ_CHANNEL2="-1002478712199"
-REQ_CHANNEL3="-1002284109882"
+REQ_CHANNEL1="-1002453389461"
+REQ_CHANNEL2="-1002295982531"
+REQ_CHANNEL3="-1002376925305"
 
 LOG_STR = "Current Cusomized Configurations are:-\n"
 LOG_STR += ("IMDB Results are enabled, Bot will be showing imdb details for you queries.\n" if IMDB else "IMBD Results are disabled.\n")
