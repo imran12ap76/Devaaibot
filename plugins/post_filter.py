@@ -99,7 +99,7 @@ async def post_filter(client, message, spoll=None):
     movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>'
     btns = []
     for file in files:
-        btns.append([InlineKeyboardButton(file.file_name, url=f"https://t.me/{bot.me.username}?start=file_{file.file_id}")])
+        btns.append([InlineKeyboardButton(file.file_name, url=f"https://t.me/{client.me.username}?start=file_{file.file_id}")])
     if offset != "":
         btns.append(
             [InlineKeyboardButton(text=f"❄️ ᴩᴀɢᴇꜱ 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
