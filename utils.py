@@ -60,33 +60,50 @@ async def is_user_subscribed(bot, message):
     logger.info("Checking User Status")
     
     if not (REQ_CHANNEL1 and REQ_CHANNEL2 and REQ_CHANNEL3):
-        logger.info("Requests Channels Not Found")
+        logger.info("Request channels not found")
         return True
 
     if message.from_user.id in ADMINS:
-        logger.info('User is in admin list')
+        logger.info("User is in admin list")
         return True
 
-    current_channels = global_rsub.get(message.from_user.id, [])
-    
-    if len(current_channels) >= 3:
-        logger.info('User has requested access to 3 channels')
-        return True
+    try:
+        current_channels = global_rsub[message.from_user.id]
+        if len(current_channels) >= 3:
+            logger.info("User has requested access to 3 channels")
+            return True
+        channel_id = len(current_channels) + 1 
+    except KeyError:
+        channel_id = 1
+        global_rsub[message.from_user.id] = []
 
-    channel_id = len(current_channels) + 1 
-    CHAT_ID = [REQ_CHANNEL1, REQ_CHANNEL2, REQ_CHANNEL3][channel_id - 1]
+    CHAT_ID = REQ_CHANNEL1 if channel_id == 1 else REQ_CHANNEL2 if channel_id == 2 else REQ_CHANNEL3
 
     try:
         user = await bot.get_chat_member(CHAT_ID, message.from_user.id)
-        if user.status != enums.ChatMemberStatus.BANNED:
-            logger.info('User is a member of the channel')
-            if CHAT_ID not in current_channels:
-                current_channels.append(CHAT_ID)
-                global_rsub[message.from_user.id] = current_channels
+        
+        if user.status == enums.ChatMemberStatus.BANNED:
+            logger.info(f"User ID {message.from_user.id} is banned from chat ID {CHAT_ID}.")
+            return False
+        elif user.status == enums.ChatMemberStatus.MEMBER:
+            logger.info(f"User ID {message.from_user.id} is a member of chat ID {CHAT_ID}.")
+            channels = global_rsub.get(message.from_user.id, [])
+            if CHAT_ID not in channels:
+                channels.append(CHAT_ID)
+                global_rsub[message.from_user.id] = channels
+                logger.info(f"Chat ID {CHAT_ID} added to user ID {message.from_user.id}'s channels.")
             return True
+        else:
+            logger.info(f"User ID {message.from_user.id} is not a participant in chat ID {CHAT_ID}.")
+            # Fall through to the invite link logic.
+    
+    except UserNotParticipant:
+        logger.info(f"User ID {message.from_user.id} is not a participant in chat ID {CHAT_ID}.")
     except Exception as e:
-        logger.exception("Error fetching user status: %s", e)
+        logger.exception(f"Error fetching user status in chat ID {CHAT_ID}: {e}")
+        return False
 
+    # If we reach here, it means the user is not a member and not banned
     invite_link = global_rsub_invite_links.get(CHAT_ID)
     if not invite_link:
         invite_link = await create_invite_link(bot, CHAT_ID)
