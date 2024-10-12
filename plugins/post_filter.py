@@ -39,20 +39,20 @@ async def pvt_group_post_filter(bot, message):
     
 @Client.on_callback_query(group=-1)
 async def pm_post_next_page(bot, query):
-    logger.info("Query Accessed")
     if query.data.startswith("postnext"):
         _, offset, msg_id, chat_id = query.data.split('_')
         try: offset = int(off_set)
         except: offset = 0
+        logger.info(offset)
         og_msg = await bot.get_messages(int(chat_id), int(msg_id))
         text = og_msg.text
         files, next_offset, total_results = await get_search_results(text, max_results=6, offset=offset)
         if not files:
             await query.message.delete()
             return await query.answer("Something Wrong, Try Again", show_alert=True)
-        movie_text = f'<i>Hey {query.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>'
+        movie_text = f'<i>Hey {query.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>\n\n'
         for file in files:
-            movie_text += f"➡️ <a href='https://t.me/{bot.me.username}?start=file_{file.file_id}'>{file.file_name}</a> {get_size(file.file_size)}\n\n"
+            movie_text += f"➡️ <a href='https://t.me/{bot.me.username}?start=file_{file.file_id}'>{file.file_name} {get_size(file.file_size)}</a>\n\n"
         btns = []
         if 0 < offset <= 6: off_set = 0
         elif offset == 0: off_set = None
