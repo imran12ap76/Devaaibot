@@ -13,6 +13,7 @@ logger = getLogger(__name__)
 @Client.on_chat_join_request()
 async def join_reqs(client, join_req: ChatJoinRequest):
     chat_id = join_req.chat.id
+    print("recieved reqst")
     chats = [REQ_CHANNEL1, REQ_CHANNEL2, REQ_CHANNEL3]
     if chat_id in chats:
         user_id = join_req.from_user.id
