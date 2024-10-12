@@ -9,22 +9,22 @@ from utils import global_rsub, get_size, temp_files
 
 db = JoinReqs
 logger = getLogger(__name__) 
-
 @Client.on_chat_join_request()
 async def join_reqs(client, join_req: ChatJoinRequest):
     chat_id = join_req.chat.id
-    print("recieved reqst")
-    chats = [REQ_CHANNEL1, REQ_CHANNEL2, REQ_CHANNEL3]
+    print("received request")
+    chats = [REQ_CHANNEL1, REQ_CHANNEL2, REQ_CHANNEL3]    
     if chat_id in chats:
-        user_id = join_req.from_user.id
+        user_id = join_req.from_user.id      
         if user_id in global_rsub:
             channels = global_rsub[user_id]
             if chat_id not in channels:
                 if user_id in temp_files:
                     file_id = temp_files[user_id]
                     await send_file(client, user_id, file_id)
+                    logger.info("Sended For", user_id)
                     del temp_files[user_id]
-                
+
                 channels.append(chat_id)
                 global_rsub[user_id] = channels
 
