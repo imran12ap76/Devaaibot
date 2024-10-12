@@ -1,10 +1,14 @@
 import math
+import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import MessageNotModified
 from database.ia_filterdb import get_search_counts, get_search_results
-from plugins.pm_filter import manual_filters
-from utils import get_size
+from plugins.pm_filter import manual_filters, global_filters
+from plugins.helper.spell_chk import advantage_spell_chok
+from utils import get_size, SPELL_CHECK
+from info import NO_RESULTS_MSG, LOG_CHANNEL
+from Script import script
 import logging
 
 logger = logging.getLogger(__name__)
@@ -49,10 +53,10 @@ async def pm_post_next_page(bot, query):
     if not files:
         await query.message.delete()
         return await query.answer("Something Wrong, Try Again", show_alert=True)
-    movie_text = f'<i>Hey {query.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>\n\n'
-    for file in files:
-        movie_text += f"➡️ <a href='https://t.me/{bot.me.username}?start=file_{file.file_id}'>{file.file_name} {get_size(file.file_size)}</a>\n\n"
+    movie_text = f'<i>Hey {query.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>'
     btns = []
+    for file in files:
+        btns.append([InlineKeyboardButton(file.file_name, url=f"https://t.me/{bot.me.username}?start=file_{file.file_id}"
     if 0 < offset <= 6: off_set = 0
     elif offset == 0: off_set = None
     else: off_set = offset - 6
@@ -72,23 +76,27 @@ async def pm_post_next_page(bot, query):
             InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}")
         ])
     try:
-        await query.message.edit(text=movie_text, reply_markup=InlineKeyboardMarkup(btns))
+        await query.message.edit_reply_markup(reply_markup=InlineKeyboardMarkup(btns))
     except MessageNotModified:
         pass
     await query.answer()
 
-async def post_filter(client, message):
-    command = message.command[1]
-    _, msg_id, chat_id = command.split('_', 2)
-    og_msg = await client.get_messages(int(chat_id), int(msg_id))
-    text = og_msg.text
-    files, offset, total_results = await get_search_results(text, max_results=6)
-    if not files:
-        return
-    movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>\n\n'
-    for file in files:
-        movie_text += f"➡️ <a href='https://t.me/{client.me.username}?start=file_{file.file_id}'>{file.file_name} {get_size(file.file_size)}</a>\n\n"
+async def post_filter(client, message, spoll=None):
+    if spoll:
+        message = message.reply_to_message
+        text, files, offset, total_results = spoll
+    else:
+        command = message.command[1]
+        _, msg_id, chat_id = command.split('_', 2)
+        og_msg = await client.get_messages(int(chat_id), int(msg_id))
+        text = og_msg.text
+        files, offset, total_results = await get_search_results(text, max_results=6)
+        if not files:
+            return await advantage_spell_chok(client, message)
+    movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>'
     btns = []
+    for file in files:
+        btns.append([InlineKeyboardButton(file.file_name, url=f"https://t.me/{bot.me.username}?start=file_{file.file_id}"
     if offset != "":
         btns.append(
             [InlineKeyboardButton(text=f"❄️ ᴩᴀɢᴇꜱ 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
@@ -99,3 +107,33 @@ async def post_filter(client, message):
             [InlineKeyboardButton(text="❄️ ᴩᴀɢᴇꜱ 1/1", callback_data="pages")]
         )
     await message.reply_text(movie_text, reply_markup=InlineKeyboardMarkup(btns))
+
+@Client.on_callback_query(filters.regex(r"^spol"), group=-1)
+async def advantage_spoll_choker(bot, query):
+    _, user, movie_ = query.data.split('#')
+    movies = SPELL_CHECK.get(query.message.reply_to_message.id)
+    if not movies:
+        return await query.answer(script.OLD_ALRT_TXT.format(query.from_user.first_name), show_alert=True)
+    if int(user) != 0 and query.from_user.id != int(user):
+        return await query.answer(script.ALRT_TXT.format(query.from_user.first_name), show_alert=True)
+    if movie_ == "close_spellcheck":
+        return await query.message.delete()
+    movie = movies[(int(movie_))]
+    movie = re.sub(r"[:\-]", " ", movie)
+    movie = re.sub(r"\s+", " ", movie).strip()
+    await query.answer(script.TOP_ALRT_MSG)
+    if await global_filters(bot, query.message, text=movie):
+        return
+    elif await manual_filters(bot, query.message, text=movie):
+        return
+    files, offset, total_results = await get_search_results(query.message.chat.id, movie, offset=0, filter=True)
+    if files:
+        k = (movie, files, offset, total_results)
+        await post_filter(bot, query.message, k)
+    else:
+        reqstr1 = query.from_user.id if query.from_user else 0
+        if NO_RESULTS_MSG:
+            await bot.send_message(chat_id=LOG_CHANNEL, text=(script.NORSLTS.format(reqstr.id, query.from_user.mention, movie)))
+        k = await query.message.edit(script.MVE_NT_FND)
+        await asyncio.sleep(10)
+        await k.delete()

@@ -41,6 +41,7 @@ START_CHAR = ('\'', '"', SMART_OPEN)
 temp_files = {}
 global_rsub = {}
 global_rsub_invite_links = {}
+SPELL_CHECK = {}
 
 # temp db for banned 
 class temp(object):
