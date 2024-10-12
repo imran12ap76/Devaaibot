@@ -62,9 +62,6 @@ async def is_user_subscribed(bot, message):
     if not (REQ_CHANNEL1 or REQ_CHANNEL2 or REQ_CHANNEL3):
         logger.info("Requests Channels Not Found")
         return True
-    if message.from_user.id in ADMINS:
-        logger.info('user in admin list')
-        return True
     try:
         current_channels = global_rsub[message.from_user.id]
         if len(current_channels) >= 3:
