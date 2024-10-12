@@ -1,5 +1,5 @@
 import math
-from pyrogram import Client, filters, ContinuePropagation
+from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import MessageNotModified
 from database.ia_filterdb import get_search_counts, get_search_results
@@ -38,47 +38,44 @@ async def pvt_group_post_filter(bot, message):
     new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© @Spidy_Updates</b>"
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{bot.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
     
-@Client.on_callback_query(group=-1)
+@Client.on_callback_query(filters.regex(r"postnext"), group=-1)
 async def pm_post_next_page(bot, query):
-    if query.data.startswith("postnext"):
-        _, offset, msg_id, chat_id = query.data.split('_')
-        try: offset = int(offset)
-        except: offset = 0
-        og_msg = await bot.get_messages(int(chat_id), int(msg_id))
-        text = og_msg.text
-        files, next_offset, total_results = await get_search_results(text, max_results=6, offset=offset)
-        if not files:
-            await query.message.delete()
-            return await query.answer("Something Wrong, Try Again", show_alert=True)
-        movie_text = f'<i>Hey {query.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>\n\n'
-        for file in files:
-            movie_text += f"➡️ <a href='https://t.me/{bot.me.username}?start=file_{file.file_id}'>{file.file_name} {get_size(file.file_size)}</a>\n\n"
-        btns = []
-        if 0 < offset <= 6: off_set = 0
-        elif offset == 0: off_set = None
-        else: off_set = offset - 6
-        if next_offset == 0:
-            btns.append(
-                [InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}"),
-                InlineKeyboardButton(f"❄️ ᴩᴀɢᴇꜱ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages")]                                  
-            )
-        elif off_set is None:
-            btns.append(
-                [InlineKeyboardButton(f"❄️ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages"),
-                InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}")])
-        else:
-            btns.append([
-                InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}"),
-                InlineKeyboardButton(f"❄️ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages"),
-                InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}")
-            ])
-        try:
-            await query.message.edit(text=movie_text, reply_markup=InlineKeyboardMarkup(btns))
-        except MessageNotModified:
-            pass
-        await query.answer()
+    _, offset, msg_id, chat_id = query.data.split('_')
+    try: offset = int(offset)
+    except: offset = 0
+    og_msg = await bot.get_messages(int(chat_id), int(msg_id))
+    text = og_msg.text
+    files, next_offset, total_results = await get_search_results(text, max_results=6, offset=offset)
+    if not files:
+        await query.message.delete()
+        return await query.answer("Something Wrong, Try Again", show_alert=True)
+    movie_text = f'<i>Hey {query.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>\n\n'
+    for file in files:
+        movie_text += f"➡️ <a href='https://t.me/{bot.me.username}?start=file_{file.file_id}'>{file.file_name} {get_size(file.file_size)}</a>\n\n"
+    btns = []
+    if 0 < offset <= 6: off_set = 0
+    elif offset == 0: off_set = None
+    else: off_set = offset - 6
+    if next_offset == 0:
+        btns.append(
+            [InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}"),
+            InlineKeyboardButton(f"❄️ ᴩᴀɢᴇꜱ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages")]                                  
+        )
+    elif off_set is None:
+        btns.append(
+            [InlineKeyboardButton(f"❄️ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages"),
+            InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}")])
     else:
-        raise ContinuePropagation
+        btns.append([
+            InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}"),
+            InlineKeyboardButton(f"❄️ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages"),
+            InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}")
+        ])
+    try:
+        await query.message.edit(text=movie_text, reply_markup=InlineKeyboardMarkup(btns))
+    except MessageNotModified:
+        pass
+    await query.answer()
 
 async def post_filter(client, message):
     command = message.command[1]
