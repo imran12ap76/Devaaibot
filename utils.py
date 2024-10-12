@@ -61,11 +61,7 @@ async def is_user_subscribed(bot, message):
     if not (REQ_CHANNEL1 and REQ_CHANNEL2 and REQ_CHANNEL3):
         logger.info("Request channels not found")
         return True
-
-    if message.from_user.id in ADMINS:
-        logger.info("User is in admin list")
-        return True
-
+        
     user_id = message.from_user.id
 
     # Simulate the subscription check since users won't actually be members
