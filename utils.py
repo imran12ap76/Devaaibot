@@ -58,44 +58,39 @@ class temp(object):
 
 async def is_user_subscribed(bot, message):
     logger.info("Checking User Status")
-    if not (REQ_CHANNEL1 or REQ_CHANNEL2 or REQ_CHANNEL3):
+    
+    if not (REQ_CHANNEL1 and REQ_CHANNEL2 and REQ_CHANNEL3):
         logger.info("Requests Channels Not Found")
         return True
-    if message.from_user.id in ADMINS:
-        logger.info('user in admin list')
-        return True
-    try:
-        current_channels = global_rsub[message.from_user.id]
-        if len(current_channels) >= 3:
-            logger.info('user gived requests for 3 channels')
-            return True
-        channel_id = len(current_channels) + 1 
-            
-    except:
-        channel_id = 1
-        global_rsub[message.from_user.id] = []
 
-    CHAT_ID = REQ_CHANNEL1 if channel_id == 1 else REQ_CHANNEL2 if channel_id == 2 else REQ_CHANNEL3
+    if message.from_user.id in ADMINS:
+        logger.info('User is in admin list')
+        return True
+
+    current_channels = global_rsub.get(message.from_user.id, [])
+    
+    if len(current_channels) >= 3:
+        logger.info('User has requested access to 3 channels')
+        return True
+
+    channel_id = len(current_channels) + 1 
+    CHAT_ID = [REQ_CHANNEL1, REQ_CHANNEL2, REQ_CHANNEL3][channel_id - 1]
 
     try:
         user = await bot.get_chat_member(CHAT_ID, message.from_user.id)
-    except Exception as e:
-        pass
-    else:
         if user.status != enums.ChatMemberStatus.BANNED:
-            logger.info('User joined this channel')
-            channels = global_rsub.get('user_id', [])
-            if CHAT_ID not in channels:
-                channels.append(CHAT_ID)
-                global_rsub[message.from_user.id] = channels
-            
+            logger.info('User is a member of the channel')
+            if CHAT_ID not in current_channels:
+                current_channels.append(CHAT_ID)
+                global_rsub[message.from_user.id] = current_channels
             return True
+    except Exception as e:
+        logger.exception("Error fetching user status: %s", e)
 
-    try:
-        invite_link = global_rsub_invite_links[CHAT_ID]
-    except KeyError:
+    invite_link = global_rsub_invite_links.get(CHAT_ID)
+    if not invite_link:
         invite_link = await create_invite_link(bot, CHAT_ID)
-    
+
     text = """**Please click the button below to join the channel and get access to movies!**"""
     buttons = [
         [InlineKeyboardButton("📢 Request to Join Channel 📢", url=invite_link)]
@@ -107,6 +102,7 @@ async def is_user_subscribed(bot, message):
     )
 
     return False
+
 
 async def create_invite_link(bot, chat, creates_join_request=True):
     link = await bot.create_chat_invite_link(chat_id=chat, creates_join_request=creates_join_request)
