@@ -57,9 +57,12 @@ async def pm_post_next_page(bot, query):
     btns = []
     for file in files:
         btns.append([InlineKeyboardButton(file.file_name, url=f"https://t.me/{bot.me.username}?start=file_{file.file_id}"
-    if 0 < offset <= 6: off_set = 0
-    elif offset == 0: off_set = None
-    else: off_set = offset - 6
+    if 0 < offset <= 6:
+        off_set = 0
+    elif offset == 0:
+        off_set = None
+    else:
+        off_set = offset - 6
     if next_offset == 0:
         btns.append(
             [InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}"),
