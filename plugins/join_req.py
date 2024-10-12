@@ -16,7 +16,7 @@ logger.setLevel(logging.ERROR)
 @Client.on_chat_join_request(filters.channel(REQ_CHANNEL1) | 
                           filters.channel(REQ_CHANNEL2) | 
                           filters.channel(REQ_CHANNEL3))
-async def join_reqs(client: Client, join_req: ChatJoinRequest)
+async def join_reqs(client: Client, join_req: ChatJoinRequest):
     chat_id = join_req.chat.id
     logger.info("recieved rquest", chat_id)
     chats = [REQ_CHANNEL1, REQ_CHANNEL2, REQ_CHANNEL3]
