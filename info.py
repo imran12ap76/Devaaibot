@@ -44,7 +44,7 @@ NO_RESULTS_MSG = bool(environ.get("NO_RESULTS_MSG", True))
 
 # MongoDB information
 DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://ahamedjamal321:31MZB439Q1gUDsEh@cluster0.bvmre.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DATABASE_NAME = environ.get('DATABASE_NAME', "devaautobranch")
+DATABASE_NAME = environ.get('DATABASE_NAME', "devautobranch")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
 # Others
@@ -63,7 +63,7 @@ CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/Spidy_Updates')
 TUTORIAL = environ.get('TUTORIAL', 'https://t.me/')
 IS_TUTORIAL = bool(environ.get('IS_TUTORIAL', False))
 MSG_ALRT = environ.get('MSG_ALRT', 'Hi dear')
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002310112807'))
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002295925432'))
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', '+mvMoUOGE9/1')
 P_TTI_SHOW_OFF = is_enabled((environ.get('P_TTI_SHOW_OFF', "True")), True)
 IMDB = is_enabled((environ.get('IMDB', "True")), True)
