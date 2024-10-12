@@ -8,7 +8,9 @@ from info import ADMINS, AUTH_CHANNEL, CUSTOM_FILE_CAPTION, CHNL_LNK, GRP_LNK, R
 from utils import global_rsub, get_size, temp_files
 
 db = JoinReqs
-logger = getLogger(__name__) 
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.ERROR)
 
 @Client.on_chat_join_request()
 async def join_reqs(client, join_req: ChatJoinRequest):
