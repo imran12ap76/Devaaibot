@@ -1,5 +1,6 @@
 import math
 from pyrogram import Client, filters
+from pyrogram import Client as client
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from database.ia_filterdb import get_search_counts, get_search_results
 from plugins.pm_filter import manual_filters
