@@ -13,27 +13,20 @@ logger = getLogger(__name__)
 @Client.on_chat_join_request()
 async def join_reqs(client, join_req: ChatJoinRequest):
     chat_id = join_req.chat.id
-    logger.info(f"Received join request for chat ID: {chat_id}")
-
+    print("recieved reqst")
     chats = [REQ_CHANNEL1, REQ_CHANNEL2, REQ_CHANNEL3]
-    user_id = join_req.from_user.id
-
     if chat_id in chats:
-        logger.info(f"User ID {user_id} is requesting to join chat ID {chat_id}.")
-
-        # Treat the user as if they have joined
-        if user_id in temp_files:
-            file_id = temp_files[user_id]
-            await send_file(client, user_id, file_id)
-            logger.info(f"File sent to user ID {user_id} for chat ID {chat_id}.")
-            del temp_files[user_id]
-            logger.info(f"Removed user ID {user_id} from temp_files.")
-
-        # Add the user to the global subscription list
-        if user_id not in global_rsub:
-            global_rsub[user_id] = []
-        global_rsub[user_id].append(chat_id)
-        logger.info(f"User ID {user_id} added to global_rsub with chat ID {chat_id}.")
+        user_id = join_req.from_user.id
+        if user_id in global_rsub:
+            channels = global_rsub[user_id]
+            if chat_id not in channels:
+                if user_id in temp_files:
+                    file_id = temp_files[user_id]
+                    await send_file(client, user_id, file_id)
+                    del temp_files[user_id]
+                
+                channels.append(chat_id)
+                global_rsub[user_id] = channels
 
 async def send_file(client, user_id, file_id):
     files = await get_file_details(file_id)
