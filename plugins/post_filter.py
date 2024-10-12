@@ -4,6 +4,10 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from database.ia_filterdb import get_search_counts, get_search_results
 from plugins.pm_filter import manual_filters
 from utils import get_size
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
