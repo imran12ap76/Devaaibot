@@ -44,7 +44,7 @@ async def pm_post_next_page(bot, query):
         _, offset, msg_id, chat_id = query.data.split('_')
         try: offset = int(off_set)
         except: offset = 0
-        og_msg = await client.get_messages(int(chat_id), int(msg_id))
+        og_msg = await bot.get_messages(int(chat_id), int(msg_id))
         text = og_msg.text
         files, next_offset, total_results = await get_search_results(text, max_results=6, offset=offset)
         if not files:
