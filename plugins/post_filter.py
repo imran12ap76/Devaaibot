@@ -1,6 +1,7 @@
 import math
 from pyrogram import Client, filters, ContinuePropagation
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.errors import MessageNotModified
 from database.ia_filterdb import get_search_counts, get_search_results
 from plugins.pm_filter import manual_filters
 from utils import get_size
@@ -41,6 +42,7 @@ async def pvt_group_post_filter(bot, message):
 async def pm_post_next_page(bot, query):
     if query.data.startswith("postnext"):
         _, offset, msg_id, chat_id = query.data.split('_')
+        logger.info(offset)
         try: offset = int(off_set)
         except: offset = 0
         logger.info(offset)
