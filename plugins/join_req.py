@@ -30,9 +30,6 @@ async def join_reqs(client: Client, join_req: ChatJoinRequest) -> None:
                 global_rsub[user_id] = channels
 
 
-from pyrogram import Client, InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.errors import MediaEmpty
-
 async def send_file(client: Client, user_id: int, file_id: str) -> None:
     files = await get_file_details(file_id)
     
