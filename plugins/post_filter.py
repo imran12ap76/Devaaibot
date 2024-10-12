@@ -42,9 +42,12 @@ async def pvt_group_post_filter(bot, message):
 async def pm_post_next_page(bot, query):
     if query.data.startswith("postnext"):
         _, offset, msg_id, chat_id = query.data.split('_')
-        logger.info(offset)
-        try: offset = int(off_set)
-        except: offset = 0
+        try:
+            offset = int(off_set)
+            logger.info('Done')
+        except:
+            offset = 6
+            logger.info('Not')
         logger.info(offset)
         og_msg = await bot.get_messages(int(chat_id), int(msg_id))
         text = og_msg.text
