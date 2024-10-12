@@ -50,7 +50,7 @@ async def pm_post_next_page(bot, query):
         if not files:
             await query.message.delete()
             return await query.answer("Something Wrong, Try Again", show_alert=True)
-        movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>'
+        movie_text = f'<i>Hey {query.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>'
         for file in files:
             movie_text += f"➡️ <a href='https://t.me/{client.me.username}?start=file_{file.file_id}'>{file.file_name}</a> {get_size(file.file_size)}\n\n"
         btns = []
