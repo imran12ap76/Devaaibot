@@ -1,5 +1,6 @@
 import logging
 from pyrogram import Client, filters, enums
+from pyrogram import Client as client
 from pyrogram.types import ChatJoinRequest, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import MediaEmpty  # Error handling ke liye specific import
 from database.join_reqs import JoinReqs
@@ -23,6 +24,7 @@ async def join_reqs(client, join_req: ChatJoinRequest):
             if chat_id not in channels:
                 if user_id in temp_files:
                     file_id = temp_files[user_id]
+                    print(temp_files[user_id])
                     await send_file(client, user_id, file_id)
                     del temp_files[user_id]
                 
