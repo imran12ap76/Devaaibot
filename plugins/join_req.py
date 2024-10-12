@@ -14,38 +14,26 @@ logger = getLogger(__name__)
 async def join_reqs(client, join_req: ChatJoinRequest):
     chat_id = join_req.chat.id
     logger.info(f"Received join request for chat ID: {chat_id}")
-    
-    chats = [REQ_CHANNEL1, REQ_CHANNEL2, REQ_CHANNEL3]    
+
+    chats = [REQ_CHANNEL1, REQ_CHANNEL2, REQ_CHANNEL3]
+    user_id = join_req.from_user.id
+
     if chat_id in chats:
-        user_id = join_req.from_user.id
         logger.info(f"User ID {user_id} is requesting to join chat ID {chat_id}.")
-        
-        if user_id in global_rsub:
-            channels = global_rsub[user_id]
-            logger.info(f"User ID {user_id} is already in global_rsub with channels: {channels}")
 
-            if chat_id not in channels:
-                logger.info(f"Chat ID {chat_id} not found in user ID {user_id}'s channels. Processing file sending...")
-                
-                if user_id in temp_files:
-                    file_id = temp_files[user_id]
-                    await send_file(client, user_id, file_id)
-                    logger.info(f"File sent to user ID {user_id} for chat ID {chat_id}.")
-                    
-                    del temp_files[user_id]
-                    logger.info(f"Removed user ID {user_id} from temp_files.")
-                else:
-                    logger.info(f"No temporary file found for user ID {user_id}.")
+        # Treat the user as if they have joined
+        if user_id in temp_files:
+            file_id = temp_files[user_id]
+            await send_file(client, user_id, file_id)
+            logger.info(f"File sent to user ID {user_id} for chat ID {chat_id}.")
+            del temp_files[user_id]
+            logger.info(f"Removed user ID {user_id} from temp_files.")
 
-                channels.append(chat_id)
-                global_rsub[user_id] = channels
-                logger.info(f"Chat ID {chat_id} added to user ID {user_id}'s channels in global_rsub: {channels}")
-            else:
-                logger.info(f"User ID {user_id} is already a member of chat ID {chat_id}.")
-        else:
-            logger.warning(f"User ID {user_id} not found in global_rsub.")
-    else:
-        logger.warning(f"Chat ID {chat_id} is not in the list of monitored channels.")
+        # Add the user to the global subscription list
+        if user_id not in global_rsub:
+            global_rsub[user_id] = []
+        global_rsub[user_id].append(chat_id)
+        logger.info(f"User ID {user_id} added to global_rsub with chat ID {chat_id}.")
 
 async def send_file(client, user_id, file_id):
     files = await get_file_details(file_id)
