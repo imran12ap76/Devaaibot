@@ -55,38 +55,57 @@ class temp(object):
     GETALL = {}
     SHORT = {}
     SETTINGS = {}
+
+
 async def is_user_subscribed(bot, message):
     logger.info("Checking User Status")
-
-    if not (REQ_CHANNEL1 and REQ_CHANNEL2 and REQ_CHANNEL3):
-        logger.info("Request channels not found")
+    if not (REQ_CHANNEL1 or REQ_CHANNEL2 or REQ_CHANNEL3):
+        logger.info("Requests Channels Not Found")
         return True
-        
-    user_id = message.from_user.id
+    try:
+        current_channels = global_rsub[message.from_user.id]
+        if len(current_channels) >= 3:
+            logger.info('user gived requests for 3 channels')
+            return True
+        channel_id = len(current_channels) + 1 
+            
+    except:
+        channel_id = 1
+        global_rsub[message.from_user.id] = []
 
-    # Simulate the subscription check since users won't actually be members
-    if user_id in global_rsub:
-        logger.info(f"User ID {user_id} is already in global_rsub.")
-        return True
+    CHAT_ID = REQ_CHANNEL1 if channel_id == 1 else REQ_CHANNEL2 if channel_id == 2 else REQ_CHANNEL3
+
+    try:
+        user = await bot.get_chat_member(CHAT_ID, message.from_user.id)
+    except Exception as e:
+        pass
     else:
-        logger.warning(f"User ID {user_id} not found in global_rsub. Sending invite link.")
-        
-        # Send invite link logic if user is not in global_rsub
-        invite_link = global_rsub_invite_links.get(REQ_CHANNEL1)  # You can choose any channel here
-        if not invite_link:
-            invite_link = await create_invite_link(bot, REQ_CHANNEL1)
+        if user.status != enums.ChatMemberStatus.BANNED:
+            logger.info('User joined this channel')
+            channels = global_rsub.get('user_id', [])
+            if CHAT_ID not in channels:
+                channels.append(CHAT_ID)
+                global_rsub[message.from_user.id] = channels
+            
+            return True
 
-        text = """**Please click the button below to join the channel and get access to movies!**"""
-        buttons = [
-            [InlineKeyboardButton("📢 Request to Join Channel 📢", url=invite_link)]
-        ]
-        await message.reply(
-            text=text,
-            quote=True,
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+    try:
+        invite_link = global_rsub_invite_links[CHAT_ID]
+    except KeyError:
+        invite_link = await create_invite_link(bot, CHAT_ID)
+    
+    text = """**Please click the button below to join the channel and get access to movies!**"""
+    buttons = [
+        [InlineKeyboardButton("📢 Request to Join Channel 📢", url=invite_link)]
+    ]
+    await message.reply(
+        text=text,
+        quote=True,
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
 
-        return False
+    return False
+
 
 async def create_invite_link(bot, chat, creates_join_request=True):
     link = await bot.create_chat_invite_link(chat_id=chat, creates_join_request=creates_join_request)
