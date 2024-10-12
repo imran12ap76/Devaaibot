@@ -18,7 +18,7 @@ from database.connections_mdb import active_connection
 import re, asyncio, os, sys
 import json
 import base64
-from plugins.a_post_filter import post_filter
+from plugins.post_filter import post_filter
 logger = logging.getLogger(__name__)
 
 BATCH_FILES = {}
