@@ -35,6 +35,7 @@ async def pvt_group_post_filter(bot, message):
     
 @Client.on_callback_query(group=-1)
 async def pm_post_next_page(bot, query):
+    logger.info("Query Accessed")
     if query.data.startswith("postnext"):
         _, offset, msg_id, chat_id = query.data.split('_')
         try: offset = int(off_set)
