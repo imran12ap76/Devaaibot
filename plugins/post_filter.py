@@ -30,7 +30,7 @@ async def group_post_filter(client, message):
     text = message.text
     count = await get_search_counts(text)
     if not count:
-        return
+        return await advantage_spell_chok(client, message)
     new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© @Spidy_Updates</b>"
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{client.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
 
