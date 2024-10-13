@@ -97,12 +97,13 @@ async def pm_post_next_page(bot, query):
 async def post_filter(client, message, is_spol=False):
     command = message.command[1]
     if is_spol:
+        await message.react(emoji="🔥")
         _, r_user_id, r_k_id = command.split('_', 2)
         movies = SPELL_CHECK.get(int(r_user_id))
         if not movies:
-            return await message.reply_text(script.OLD_ALRT_TXT.format(query.from_user.first_name))
-        if int(r_user_id) != 0 and query.from_user.id != int(user):
-            return await message.reply_text(script.ALRT_TXT.format(query.from_user.first_name))
+            return await message.reply_text(script.OLD_ALRT_TXT.format(message.from_user.first_name))
+        if int(r_user_id) != 0 and message.from_user.id != int(user):
+            return await message.reply_text(script.ALRT_TXT.format(message.from_user.first_name))
         movie = movies[(int(r_k_id))]
         movie = re.sub(r"[:\-]", " ", movie)
         text = re.sub(r"\s+", " ", movie).strip()
