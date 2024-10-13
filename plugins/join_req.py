@@ -37,12 +37,7 @@ async def send_file(client, user_id, file_id):
     file = files[0]
     title = file.file_name
     size = get_size(file.file_size)
-    button = [[
-        InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
-    ],[
-        InlineKeyboardButton("Bᴏᴛ Oᴡɴᴇʀ", url="t.me/Joyboy_Nikkaman")
-    ]]        
-    keyboard = InlineKeyboardMarkup([[button]])
+    
     f_caption = file.file_name
     if CUSTOM_FILE_CAPTION:
         try:
@@ -57,7 +52,16 @@ async def send_file(client, user_id, file_id):
             chat_id=user_id,
             file_id=file_id,
             caption=f_caption,
-            reply_markup=keyboard
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton('Sᴜᴘᴘᴏʀᴛ Gʀᴏᴜᴘ', url=GRP_LNK),
+                        InlineKeyboardButton('Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ', url=CHNL_LNK)
+                    ],[
+                        InlineKeyboardButton("Bᴏᴛ Oᴡɴᴇʀ", url="t.me/Joyboy_Nikkaman")
+                    ]
+                ]
+            )
         )
     except MediaEmpty:
         print("Error: The media file is empty or invalid.")
