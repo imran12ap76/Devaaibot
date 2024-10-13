@@ -45,6 +45,7 @@ async def pvt_group_post_filter(bot, message):
     
 @Client.on_callback_query(filters.regex(r"postnext"), group=-1)
 async def pm_post_next_page(bot, query):
+    logger.error(query.data)
     _, offset, msg_id, chat_id, is_spol = query.data.split('_')
     is_spol = is_spol.lower() == 'true'
     try: offset = int(offset)
