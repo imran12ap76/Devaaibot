@@ -96,6 +96,7 @@ async def pm_post_next_page(bot, query):
 
 async def post_filter(client, message, is_spol=False):
     command = message.command[1]
+    chat_id, msg_id = None, None
     if is_spol:
         await message.react(emoji="🔥")
         _, r_user_id, r_k_id = command.split('_', 2)
