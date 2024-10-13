@@ -54,15 +54,11 @@ COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
 # Online Stream and Download
 PORT = int(environ.get('PORT', 8080))
-NO_PORT = False
+NO_PORT = True
 APP_NAME = None
-if 'DYNO' in environ:
-    ON_HEROKU = True
-    APP_NAME = environ.get('APP_NAME')
-else:
-    ON_HEROKU = False
+ON_HEROKU = True
 BIND_ADRESS = '0.0.0.0'
-FQDN = APP_NAME+'.herokuapp.com'
+FQDN = "https://spidybots-spidez.skc7lm.easypanel.host/"
 URL = "https://{}/".format(FQDN) if ON_HEROKU or NO_PORT else \
     "http://{}:{}/".format(FQDN, PORT)
 SLEEP_THRESHOLD = int(environ.get('SLEEP_THRESHOLD', '60'))
@@ -72,7 +68,6 @@ MULTI_CLIENT = False
 name = str(environ.get('name', 'SpidyMV'))
 PING_INTERVAL = int(environ.get("PING_INTERVAL", "1200"))  # 20 minutes
 ON_HEROKU = True
-APP_NAME = ""
 HAS_SSL=True
 if HAS_SSL:
     URL = "https://{}/".format(FQDN)
