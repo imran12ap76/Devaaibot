@@ -54,7 +54,7 @@ COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
 # Online Stream and Download
 PORT = int(environ.get('PORT', 8080))
-NO_PORT = True
+NO_PORT = "8080"
 APP_NAME = None
 ON_HEROKU = False
 BIND_ADRESS = '0.0.0.0'
