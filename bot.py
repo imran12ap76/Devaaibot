@@ -48,9 +48,6 @@ class Bot(Client):
         )
 
     async def start(self):
-        b_users, b_chats = await db.get_banned()
-        temp.BANNED_USERS = b_users
-        temp.BANNED_CHATS = 
         if ON_HEROKU:
             asyncio.create_task(ping_server())
         await super().start()
