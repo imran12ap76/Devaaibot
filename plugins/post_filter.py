@@ -102,7 +102,7 @@ async def post_filter(client, message, is_spol=False):
         movies = SPELL_CHECK.get(int(r_user_id))
         if not movies:
             return await message.reply_text(script.OLD_ALRT_TXT.format(message.from_user.first_name))
-        if int(r_user_id) != 0 and message.from_user.id != int(user):
+        if int(r_user_id) != 0 and message.from_user.id != int(r_user_id):
             return await message.reply_text(script.ALRT_TXT.format(message.from_user.first_name))
         movie = movies[(int(r_k_id))]
         movie = re.sub(r"[:\-]", " ", movie)
@@ -135,13 +135,13 @@ async def post_filter(client, message, is_spol=False):
 @Client.on_callback_query(filters.regex(r"^spol"), group=-1)
 async def advantage_spoll_choker(bot, query):
     _, user, movie_ = query.data.split('#')
+    if movie_ == "close_spellcheck":
+        return await query.message.delete()
     movies = SPELL_CHECK.get(query.message.reply_to_message.id)
     if not movies:
         return await query.answer(script.OLD_ALRT_TXT.format(query.from_user.first_name), show_alert=True)
-    if int(user) != 0 and query.from_user.id != int(user):
+    elif int(user) != 0 and query.from_user.id != int(user):
         return await query.answer(script.ALRT_TXT.format(query.from_user.first_name), show_alert=True)
-    if movie_ == "close_spellcheck":
-        return await query.message.delete()
     movie = movies[(int(movie_))]
     movie = re.sub(r"[:\-]", " ", movie)
     movie = re.sub(r"\s+", " ", movie).strip()
