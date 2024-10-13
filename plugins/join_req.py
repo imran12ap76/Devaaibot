@@ -48,20 +48,12 @@ async def send_file(client, user_id, file_id):
             logger.exception(e)
            
     try:
+        button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
         m = await client.send_cached_media(
             chat_id=user_id,
             file_id=file_id,
             caption=f_caption,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton('Sᴜᴘᴘᴏʀᴛ Gʀᴏᴜᴘ', url=GRP_LNK),
-                        InlineKeyboardButton('Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ', url=CHNL_LNK)
-                    ],[
-                        InlineKeyboardButton("Bᴏᴛ Oᴡɴᴇʀ", url="t.me/Joyboy_Nikkaman")
-                    ]
-                ]
-            )
+            reply_markup=button
         )
     except MediaEmpty:
         print("Error: The media file is empty or invalid.")
