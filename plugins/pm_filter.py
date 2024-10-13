@@ -1199,7 +1199,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await send_all(client, query.from_user.id, files, ident, query.message.chat.id, query.from_user.first_name, query)
         await query.answer(f"Hey {query.from_user.first_name}, All files on this page has been sent successfully to your PM !", show_alert=True)
 
-    elif data.startswith("generate_stream_link"):
+    elif query.data.startswith("generate_stream_link"):
         _, file_id = data.split(":")
         try:
             user_id = query.from_user.id
