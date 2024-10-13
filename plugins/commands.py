@@ -119,6 +119,8 @@ async def start(client, message):
     data = message.command[1]
     if data.startswith("pquery"):
         return await post_filter(client, message)
+    elif data.startswith("spol"):
+        return await post_filter(client, message, is_spol=True)
     try:
         pre, file_id = data.split('_', 1)
     except:

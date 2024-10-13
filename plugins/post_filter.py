@@ -1,5 +1,6 @@
 import math
 import asyncio
+import re
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import MessageNotModified
@@ -44,11 +45,20 @@ async def pvt_group_post_filter(bot, message):
     
 @Client.on_callback_query(filters.regex(r"postnext"), group=-1)
 async def pm_post_next_page(bot, query):
-    _, offset, msg_id, chat_id = query.data.split('_')
+    _, offset, msg_id, chat_id, is_spol = query.data.split('_')
+    is_spol = is_spol.lower() == 'true'
     try: offset = int(offset)
     except: offset = 0
-    og_msg = await bot.get_messages(int(chat_id), int(msg_id))
-    text = og_msg.text
+    if is_spol:
+        movies = SPELL_CHECK.get(int(chat_id))
+        if not movies:
+            return await query.message.delete()
+        movie = movies[(int(r_k_id))]
+        movie = re.sub(r"[:\-]", " ", movie)
+        text = re.sub(r"\s+", " ", movie).strip()
+    else:
+        og_msg = await bot.get_messages(int(chat_id), int(msg_id))
+        text = og_msg.text
     files, next_offset, total_results = await get_search_results(text, max_results=6, offset=offset)
     if not files:
         await query.message.delete()
@@ -65,18 +75,18 @@ async def pm_post_next_page(bot, query):
         off_set = offset - 6
     if next_offset == 0:
         btns.append(
-            [InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}"),
+            [InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}_{is_spol}"),
             InlineKeyboardButton(f"❄️ ᴩᴀɢᴇꜱ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages")]                                  
         )
     elif off_set is None:
         btns.append(
             [InlineKeyboardButton(f"❄️ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages"),
-            InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}")])
+            InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}_{is_spol}")])
     else:
         btns.append([
-            InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}"),
+            InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}_{is_spol}"),
             InlineKeyboardButton(f"❄️ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages"),
-            InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}")
+            InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}_{is_spol}")
         ])
     try:
         await query.message.edit_reply_markup(reply_markup=InlineKeyboardMarkup(btns))
@@ -84,12 +94,22 @@ async def pm_post_next_page(bot, query):
         pass
     await query.answer()
 
-async def post_filter(client, message, spoll=None):
-    if spoll:
-        message = message.reply_to_message
-        text, files, offset, total_results = spoll
+async def post_filter(client, message, is_spol=False):
+    command = message.command[1]
+    if is_spol:
+        _, r_user_id, r_k_id = command.split('_', 2)
+        movies = SPELL_CHECK.get(int(r_user_id))
+        if not movies:
+            return await message.reply_text(script.OLD_ALRT_TXT.format(query.from_user.first_name))
+        if int(r_user_id) != 0 and query.from_user.id != int(user):
+            return await message.reply_text(script.ALRT_TXT.format(query.from_user.first_name))
+        movie = movies[(int(r_k_id))]
+        movie = re.sub(r"[:\-]", " ", movie)
+        text = re.sub(r"\s+", " ", movie).strip()
+        files, offset, total_results = await get_search_results(text, max_results=6)
+        if not files:
+            return await message.reply_text("No Files Found")
     else:
-        command = message.command[1]
         _, msg_id, chat_id = command.split('_', 2)
         og_msg = await client.get_messages(int(chat_id), int(msg_id))
         text = og_msg.text
@@ -103,7 +123,7 @@ async def post_filter(client, message, spoll=None):
     if offset != "":
         btns.append(
             [InlineKeyboardButton(text=f"❄️ ᴩᴀɢᴇꜱ 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
-            InlineKeyboardButton(text="ɴᴇxᴛ ➡️", callback_data=f"postnext_{offset}_{msg_id}_{chat_id}")]
+            InlineKeyboardButton(text="ɴᴇxᴛ ➡️", callback_data=f"postnext_{offset}_{msg_id if msg_id else 0}_{chat_id if chat_id else r_user_id}_{is_spol}")]
         )
     else:
         btns.append(
