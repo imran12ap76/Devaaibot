@@ -31,11 +31,7 @@ from aiohttp import web
 from plugins import web_server
 
 import asyncio
-from pyrogram import idle
-from lazybot import LazyPrincessBot
 from util.keepalive import ping_server
-from lazybot.clients import initialize_clients
-
 PORT = "8080"
 
 class Bot(Client):
@@ -54,7 +50,9 @@ class Bot(Client):
     async def start(self):
         b_users, b_chats = await db.get_banned()
         temp.BANNED_USERS = b_users
-        temp.BANNED_CHATS = b_chats
+        temp.BANNED_CHATS = 
+        if ON_HEROKU:
+            asyncio.create_task(ping_server())
         await super().start()
         me = await self.get_me()
         temp.ME = me.id
