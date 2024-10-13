@@ -56,10 +56,10 @@ COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 PORT = int(environ.get('PORT', 8080))
 NO_PORT = True
 APP_NAME = None
-ON_HEROKU = True
+ON_HEROKU = False
 BIND_ADRESS = '0.0.0.0'
-FQDN = "https://spidybots-spidez.skc7lm.easypanel.host/"
-URL = "https://{}/".format(FQDN) if ON_HEROKU or NO_PORT else \
+FQDN = "spidybots-spidez.skc7lm.easypanel.host/"
+URL = "https://{}/".format(FQDN) if ON_HEROKU else \
     "http://{}:{}/".format(FQDN, PORT)
 SLEEP_THRESHOLD = int(environ.get('SLEEP_THRESHOLD', '60'))
 WORKERS = int(environ.get('WORKERS', '4'))
