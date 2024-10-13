@@ -1200,7 +1200,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.answer(f"Hey {query.from_user.first_name}, All files on this page has been sent successfully to your PM !", show_alert=True)
 
     elif query.data.startswith("generate_stream_link"):
-        _, file_id = data.split(":")
+        _, file_id = query.data.split(":")
         try:
             user_id = query.from_user.id
             username =  query.from_user.mention 
