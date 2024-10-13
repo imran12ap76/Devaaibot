@@ -46,14 +46,12 @@ async def Lazy_start():
     print('\n')
     print(' Initalizing Telegram Bot ')
     bot_info = await LazyPrincessBot.get_me()
-    LazyPrincessBot.username = bot_info.username
     await initialize_clients()
     if ON_HEROKU:
         asyncio.create_task(ping_server())
     b_users, b_chats = await db.get_banned()
     temp.BANNED_USERS = b_users
     temp.BANNED_CHATS = b_chats
-    await Media.ensure_indexes()
     me = await LazyPrincessBot.get_me()
     temp.ME = me.id
     temp.U_NAME = me.username
@@ -64,7 +62,6 @@ async def Lazy_start():
     bind_address = "0.0.0.0" if ON_HEROKU else BIND_ADRESS
     await web.TCPSite(app, bind_address, PORT).start()
     logging.info(f"{me.first_name} with for Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
-    logging.info(LOG_STR)
     await idle()
 
 if __name__ == '__main__':
