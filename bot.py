@@ -105,8 +105,5 @@ class Bot(Client):
                 yield message
                 current += 1
                 
-multi_clients = {}
-work_loads = {} 
-
 app = Bot()
 app.run()
