@@ -53,7 +53,7 @@ async def pm_post_next_page(bot, query):
         movies = SPELL_CHECK.get(int(chat_id))
         if not movies:
             return await query.message.delete()
-        movie = movies[(int(r_k_id))]
+        movie = movies[(int(chat_id))]
         movie = re.sub(r"[:\-]", " ", movie)
         text = re.sub(r"\s+", " ", movie).strip()
     else:
