@@ -58,7 +58,7 @@ NO_PORT = True
 APP_NAME = None
 ON_HEROKU = False
 BIND_ADRESS = '0.0.0.0'
-FQDN = "spidybots-spidez.skc7lm.easypanel.host/"
+FQDN = "spidybots-spidez.skc7lm.easypanel.host"
 URL = "https://{}/".format(FQDN) if ON_HEROKU else \
     "http://{}:{}/".format(FQDN, PORT)
 SLEEP_THRESHOLD = int(environ.get('SLEEP_THRESHOLD', '60'))
