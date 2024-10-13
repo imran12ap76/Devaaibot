@@ -46,7 +46,7 @@ async def pvt_group_post_filter(bot, message):
 @Client.on_callback_query(filters.regex(r"postnext"), group=-1)
 async def pm_post_next_page(bot, query):
     logger.error(query.data)
-    _, offset, msg_id, chat_id, is_spol = query.data.split('_')
+    _, offset, msg_id, chat_id, is_spol, r_k_id = query.data.split('_')
     is_spol = is_spol.lower() == 'true'
     try: offset = int(offset)
     except: offset = 0
@@ -54,7 +54,11 @@ async def pm_post_next_page(bot, query):
         movies = SPELL_CHECK.get(int(chat_id))
         if not movies:
             return await query.message.delete()
-        movie = movies[(int(chat_id))]
+        try:
+            r_k_id = int(r_k_id)
+        except:
+            return await query.message.delete()
+        movie = movies[r_k_id]
         movie = re.sub(r"[:\-]", " ", movie)
         text = re.sub(r"\s+", " ", movie).strip()
     else:
@@ -76,7 +80,7 @@ async def pm_post_next_page(bot, query):
         off_set = offset - 6
     if next_offset == 0:
         btns.append(
-            [InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}_{is_spol}"),
+            [InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}_{is_spol}_{r_k_id}"),
             InlineKeyboardButton(f"❄️ ᴩᴀɢᴇꜱ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages")]                                  
         )
     elif off_set is None:
@@ -85,9 +89,9 @@ async def pm_post_next_page(bot, query):
             InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}_{is_spol}")])
     else:
         btns.append([
-            InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}_{is_spol}"),
+            InlineKeyboardButton("⬅️ ʙᴀᴄᴋ", callback_data=f"postnext_{off_set}_{msg_id}_{chat_id}_{is_spol}_{r_k_id}"),
             InlineKeyboardButton(f"❄️ {math.ceil(int(offset) / 6) + 1} / {math.ceil(total_results / 6)}", callback_data="pages"),
-            InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}_{is_spol}")
+            InlineKeyboardButton("ɴᴇxᴛ ➡️", callback_data=f"postnext_{next_offset}_{msg_id}_{chat_id}_{is_spol}_{r_k_id}")
         ])
     try:
         await query.message.edit_reply_markup(reply_markup=InlineKeyboardMarkup(btns))
@@ -97,7 +101,7 @@ async def pm_post_next_page(bot, query):
 
 async def post_filter(client, message, is_spol=False):
     command = message.command[1]
-    chat_id, msg_id = None, None
+    chat_id, msg_id, r_k_id = None, None, None
     if is_spol:
         await message.react(emoji="🔥")
         _, r_user_id, r_k_id = command.split('_', 2)
@@ -126,7 +130,7 @@ async def post_filter(client, message, is_spol=False):
     if offset != "":
         btns.append(
             [InlineKeyboardButton(text=f"❄️ ᴩᴀɢᴇꜱ 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
-            InlineKeyboardButton(text="ɴᴇxᴛ ➡️", callback_data=f"postnext_{offset}_{msg_id if msg_id else 0}_{chat_id if chat_id else r_user_id}_{is_spol}")]
+            InlineKeyboardButton(text="ɴᴇxᴛ ➡️", callback_data=f"postnext_{offset}_{msg_id if msg_id else 0}_{chat_id if chat_id else r_user_id}_{is_spol}_{r_k_id}")]
         )
     else:
         btns.append(
