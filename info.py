@@ -43,9 +43,13 @@ SUPPORT_CHAT_ID = int(support_chat_id) if support_chat_id and id_pattern.search(
 NO_RESULTS_MSG = bool(environ.get("NO_RESULTS_MSG", True))
 
 # MongoDB information
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://ahamedjamal321:31MZB439Q1gUDsEh@cluster0.bvmre.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DATABASE_NAME = environ.get('DATABASE_NAME', "devautobranch")
-COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Teleram_files')
+DATABASE_URI="mongodb+srv://spidez1:spidez1@cluster0.qdz1z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI2="mongodb+srv://spidez2:spidez2@cluster0.lbhxa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI3="mongodb+srv://spidez3:spidez3@cluster0.ive5z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI4="mongodb+srv://spidez4:spidez4@cluster0.eouaw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI5="mongodb+srv://spidez5:spidez5@cluster0.h6u9g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_NAME = environ.get('DATABASE_NAME', "SpidyMovie")
+COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
 # Others
 VERIFY = bool(environ.get('VERIFY', False))
