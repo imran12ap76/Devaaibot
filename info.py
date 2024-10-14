@@ -70,9 +70,9 @@ PING_INTERVAL = int(environ.get("PING_INTERVAL", "1200"))  # 20 minutes
 ON_HEROKU = True
 HAS_SSL=True
 if HAS_SSL:
-    URL = "https://{}/".format(FQDN)
+    URL = "https://{}".format(FQDN)
 else:
-    URL = "http://{}/".format(FQDN)
+    URL = "http://{}".format(FQDN)
 REPO_OWNER = "Abhishek-issac"
 
 # Others
