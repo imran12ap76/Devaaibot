@@ -1,16 +1,10 @@
-# Credit @LazyDeveloper.
-# Please Don't remove credit.
-# Born to make history @LazyDeveloper !
-# Thank you LazyDeveloper for helping us in this Journey
-# 🥰  Thank you for giving me credit @LazyDeveloperr  🥰
-# for any error please contact me -> telegram@LazyDeveloperr or insta @LazyDeveloperr 
-# rip paid developers 🤣 - >> No need to buy paid source code while @LazyDeveloperr is here 😍😍
+#Thanks @DeletedFromEarth for helping in this journey 
 import math
 import asyncio
 import logging
 from info import *
 from typing import Dict, Union
-from zzint import work_loads
+from lazybot import work_loads
 from pyrogram import Client, utils, raw
 from .file_properties import get_file_ids
 from pyrogram.session import Session, Auth
@@ -64,9 +58,6 @@ class ByteStreamer:
         self.cached_file_ids[id] = file_id
         logging.debug(f"Cached media message with ID {id}")
         return self.cached_file_ids[id]
-    
-        # with Love @LazyDeveloperr 💘
-        # Subscribe YT @LazyDeveloperr - to learn more about this for free...
 
     async def generate_media_session(self, client: Client, file_id: FileId) -> Session:
         """
