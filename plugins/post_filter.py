@@ -20,7 +20,7 @@ async def give_filter(client, message):
         return
     await group_post_filter(client, message)
 
-@Client.on_message(filters.private & filters.text & filters.incoming)
+@Client.on_message(filters.private & filters.text)
 async def givepvt_filter(bot, message):
     if await manual_filters(bot, message):
         return
