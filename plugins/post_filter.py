@@ -4,7 +4,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import MessageNotModified
 from database.ia_filterdb import get_search_counts, get_search_results
-from plugins.pm_filter import manual_filters, global_filters
+from plugins.pm_filter import manual_filters, global_filters, auto_filter
 from plugins.helper.spell_chk import advantage_spell_chok
 from utils import get_size, SPELL_CHECK
 from info import NO_RESULTS_MSG, LOG_CHANNEL
@@ -24,7 +24,7 @@ async def give_filter(client, message):
 async def givepvt_filter(bot, message):
     if await manual_filters(bot, message):
         return
-    await pvt_group_post_filter(bot, message)
+    await auto_filter(bot, message)
     
 async def group_post_filter(client, message):
     text = message.text
