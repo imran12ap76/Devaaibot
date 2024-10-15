@@ -109,17 +109,17 @@ NON_IMG = """<b>‼️ FILE NOT FOUND ? ‼️
 
 4⃣<i>‼ 𝖱𝖾𝗉𝗈𝗋𝗍 𝗍𝗈 𝖺𝖽𝗆𝗂𝗇</b>"""
 
-@Client.on_message(filters.group & filters.text)
+@Client.on_message(filters.group & filters.text | filters.incoming)
 async def grp_give_filters(client, message):        
     k = await global_filters(client, message)    
     if k == False:
         await auto_filter(client, message)    
 
-@Client.on_message(filters.private & filters.text)
+@Client.on_message(filters.private & filters.text | filters.incoming)
 async def pvt_give_filters(bot, message):
-    k = await global_filters(bot, message)    
-    if k == False:
-        await auto_filter(bot, message)    
+    if not await global_filters(bot, message)    
+        return 
+    await auto_filter(bot, message)    
         
 @Client.on_callback_query(filters.regex(r"^next"))
 async def next_page(bot, query):
