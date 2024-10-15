@@ -47,18 +47,7 @@ BUTTONS1 = {}
 BUTTONS2 = {}
 
 
-@Client.on_message(filters.group & filters.text & filters.incoming)
-async def give_filter(client, message):
-    if await global_filters(client, message):
-        return
-    await auto_filter(client, message)
 
-@Client.on_message(filters.private & filters.text)
-async def givepvt_filter(bot, message):
-    if await global_filters(bot, message):
-        return
-    await auto_filter(bot, message)
-    
 @Client.on_callback_query(filters.regex(r"^next"))
 async def next_page(bot, query):
     ident, req, key, offset = query.data.split("_")
@@ -225,7 +214,7 @@ async def next_page(bot, query):
     await query.answer()
 
 
-@Client.on_callback_query(filters.regex(r"^spol"))
+#@Client.on_callback_query(filters.regex(r"^spol"))
 async def advantage_spoll_choker(bot, query):
      _, user, movie_ = query.data.split('#')
      movies = SPELL_CHECK.get(query.message.reply_to_message.id)
@@ -258,7 +247,7 @@ async def advantage_spoll_choker(bot, query):
 
 #languages-start
 
-@Client.on_callback_query(filters.regex(r"^languages#"))
+#@Client.on_callback_query(filters.regex(r"^languages#"))
 async def languages_cb_handler(client: Client, query: CallbackQuery):
 
     try:
@@ -305,7 +294,7 @@ async def languages_cb_handler(client: Client, query: CallbackQuery):
     await query.edit_message_reply_markup(InlineKeyboardMarkup(btn))
     
 
-@Client.on_callback_query(filters.regex(r"^fl#"))
+#@Client.on_callback_query(filters.regex(r"^fl#"))
 async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
     _, lang, key = query.data.split("#")
     search = FRESH.get(key)
@@ -452,7 +441,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
     #language-end
     #season-start
     
-@Client.on_callback_query(filters.regex(r"^seasons#"))
+#@Client.on_callback_query(filters.regex(r"^seasons#"))
 async def seasons_cb_handler(client: Client, query: CallbackQuery):
 
     try:
@@ -501,7 +490,7 @@ async def seasons_cb_handler(client: Client, query: CallbackQuery):
     await query.edit_message_reply_markup(InlineKeyboardMarkup(btn))
 
 
-@Client.on_callback_query(filters.regex(r"^fs#"))
+#@Client.on_callback_query(filters.regex(r"^fs#"))
 async def filter_seasons_cb_handler(client: Client, query: CallbackQuery):
     _, seas, key = query.data.split("#")
     search = FRESH.get(key)
@@ -616,7 +605,7 @@ async def filter_seasons_cb_handler(client: Client, query: CallbackQuery):
 #season-end
 #quality-start
 
-@Client.on_callback_query(filters.regex(r"^qualities#"))
+#@Client.on_callback_query(filters.regex(r"^qualities#"))
 async def qualities_cb_handler(client: Client, query: CallbackQuery):
 
     try:
