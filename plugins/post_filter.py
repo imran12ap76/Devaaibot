@@ -16,15 +16,15 @@ logger.setLevel(logging.INFO)
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
-    if await manual_filters(client, message):
+    if await global_filters(client, message):
         return
-    await group_post_filter(client, message)
+    await post_filter(client, message)
 
 @Client.on_message(filters.private & filters.text)
 async def givepvt_filter(bot, message):
-    if await manual_filters(bot, message):
+    if await global_filters(bot, message):
         return
-    await auto_filter(bot, message)
+    await post_filter(bot, message)
     
 async def group_post_filter(client, message):
     text = message.text
@@ -34,13 +34,6 @@ async def group_post_filter(client, message):
     new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© @Spidy_Updates</b>"
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{client.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
 
-async def pvt_group_post_filter(bot, message):
-    text = message.text
-    count = await get_search_counts(text)
-    if not count:
-        return
-    new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© @Spidy_Updates</b>"
-    await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{bot.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
     
 @Client.on_callback_query(filters.regex(r"postnext"), group=-1)
 async def pm_post_next_page(bot, query):
@@ -89,10 +82,10 @@ async def post_filter(client, message, spoll=None):
         message = message.reply_to_message
         text, files, offset, total_results = spoll
     else:
-        command = message.command[1]
-        _, msg_id, chat_id = command.split('_', 2)
-        og_msg = await client.get_messages(int(chat_id), int(msg_id))
-        text = og_msg.text
+        #command = message.command[1]
+        #_, msg_id, chat_id = command.split('_', 2)
+        #og_msg = await client.get_messages(int(chat_id), int(msg_id))
+        text = message.text
         files, offset, total_results = await get_search_results(text, max_results=6)
         if not files:
             return await advantage_spell_chok(client, message)
