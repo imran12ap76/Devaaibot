@@ -117,8 +117,9 @@ async def grp_give_filters(client, message):
 
 @Client.on_message(filters.private & filters.text | filters.incoming)
 async def pvt_give_filters(bot, message):
-    if not await global_filters(bot, message)    
-        return 
+    k = await global_filters(bot, message)    
+    if k:
+        return
     await auto_filter(bot, message)    
         
 @Client.on_callback_query(filters.regex(r"^next"))
