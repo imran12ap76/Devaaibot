@@ -14,17 +14,17 @@ import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-#@Client.on_message(filters.group & filters.text & filters.incoming)
-#async def give_filter(client, message):
-    #if await manual_filters(client, message):
-        #return
-    #await group_post_filter(client, message)
+@Client.on_message(filters.group & filters.text & filters.incoming)
+async def give_filter(client, message):
+    if await manual_filters(client, message):
+        return
+    await group_post_filter(client, message)
 
-#@Client.on_message(filters.private & filters.text)
-#async def givepvt_filter(bot, message):
-    #if await manual_filters(bot, message):
-        #return
-    #await auto_filter(bot, message)
+@Client.on_message(filters.private & filters.text)
+async def givepvt_filter(bot, message):
+    if await manual_filters(bot, message):
+        return
+    await auto_filter(bot, message)
     
 async def group_post_filter(client, message):
     text = message.text
@@ -42,7 +42,7 @@ async def pvt_group_post_filter(bot, message):
     new_message = f"<b>Title : #{text.replace(' ', '_')}\nTotal Files : {count}\n\n© @Spidy_Updates</b>"
     await message.reply_text(new_message, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Download', url=f"https://t.me/{bot.me.username}?start=pquery_{message.id}_{message.chat.id}")]]))
     
-#@Client.on_callback_query(filters.regex(r"postnext"), group=-1)
+@Client.on_callback_query(filters.regex(r"postnext"), group=-1)
 async def pm_post_next_page(bot, query):
     _, offset, msg_id, chat_id = query.data.split('_')
     try: offset = int(offset)
@@ -111,7 +111,7 @@ async def post_filter(client, message, spoll=None):
         )
     await message.reply_text(movie_text, reply_markup=InlineKeyboardMarkup(btns))
 
-#@Client.on_callback_query(filters.regex(r"^spol"), group=-1)
+@Client.on_callback_query(filters.regex(r"^spol"), group=-1)
 async def advantage_spoll_choker(bot, query):
     _, user, movie_ = query.data.split('#')
     movies = SPELL_CHECK.get(query.message.reply_to_message.id)
