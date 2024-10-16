@@ -77,32 +77,29 @@ async def pm_post_next_page(bot, query):
         pass
     await query.answer()
 
-async def post_filter(client, message, spoll=None):
-    if spoll:
-        message = message.reply_to_message
-        text, files, offset, total_results = spoll
-    else:
-        #command = message.command[1]
-        #_, msg_id, chat_id = command.split('_', 2)
-        #og_msg = await client.get_messages(int(chat_id), int(msg_id))
-        text = message.text
-        files, offset, total_results = await get_search_results(text, max_results=6)
-        if not files:
-            return await advantage_spell_chok(client, message)
-    movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>'
-    btns = []
-    for file in files:
-        btns.append([InlineKeyboardButton(file.file_name, url=f"https://t.me/{client.me.username}?start=file_{file.file_id}")])
-    if offset != "":
-        btns.append(
-            [InlineKeyboardButton(text=f"❄️ ᴩᴀɢᴇꜱ 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
-            InlineKeyboardButton(text="ɴᴇxᴛ ➡️", callback_data=f"postnext_{offset}_{msg_id}_{chat_id}")]
-        )
-    else:
-        btns.append(
-            [InlineKeyboardButton(text="❄️ ᴩᴀɢᴇꜱ 1/1", callback_data="pages")]
-        )
-    await message.reply_text(movie_text, reply_markup=InlineKeyboardMarkup(btns))
+async def post_filter(client, message, spoll=None):  
+   if spoll:  
+      message = message.reply_to_message  
+      text, files, offset, total_results = spoll  
+   else:  
+      text = message.text  
+      files, offset, total_results = await get_search_results(text, max_results=6)  
+      if not files:  
+        return await advantage_spell_chok(client, message)  
+   movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>'  
+   btns = []  
+   for file in files:  
+      btns.append([InlineKeyboardButton(file.file_name, url=f"https://t.me/{client.me.username}?start=file_{file.file_id}")])  
+   if offset != "":  
+      btns.append(  
+        [InlineKeyboardButton(text=f"❄️ ᴩᴀɢᴇꜱ 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),  
+        InlineKeyboardButton(text="ɴᴇxᴛ ➡️", callback_data=f"postnext_{offset}_{message.id}_{message.chat.id}")]  
+      )  
+   else:  
+      btns.append(  
+        [InlineKeyboardButton(text="❄️ ᴩᴀɢᴇꜱ 1/1", callback_data="pages")]  
+      )  
+   await message.reply_text(movie_text, reply_markup=InlineKeyboardMarkup(btns))
 
 @Client.on_callback_query(filters.regex(r"^spol"), group=-1)
 async def advantage_spoll_choker(bot, query):
