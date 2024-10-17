@@ -78,6 +78,7 @@ async def pm_post_next_page(bot, query):
     await query.answer()
 
 async def post_filter(client, message, spoll=None):  
+   crazy = None
    if spoll:  
       message = message.reply_to_message  
       text, files, offset, total_results = spoll  
