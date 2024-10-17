@@ -1,6 +1,6 @@
 import logging
 import logging.config
-import datetime
+from datetime import datetime
 from logging import INFO, WARNING, FileHandler, StreamHandler, basicConfig, getLogger
 LOG_DATETIME = datetime.now().strftime("%d_%m_%Y-%H_%M_%S")
 LOGDIR = f"{__name__}/logs"
