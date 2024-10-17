@@ -78,15 +78,15 @@ async def pm_post_next_page(bot, query):
     await query.answer()
 
 async def post_filter(client, message, spoll=None):  
-    crazy = None
-    if spoll:  
-        message = message.reply_to_message  
-        text, files, offset, total_results = spoll
-    else:
-        text = message.text  
-        files, offset, total_results = await get_search_results(text, max_results=6)  
-   if not files:  
-        return await advantage_spell_chok(client, message)  
+   crazy = None  
+   if spoll:  
+      message = message.reply_to_message  
+      text, files, offset, total_results = spoll  
+   else:  
+      text = message.text  
+      files, offset, total_results = await get_search_results(text, max_results=6)  
+   if not files:  
+      return await advantage_spell_chok(client, message)  
    movie_text = f'<i>Hey {message.from_user.mention}\n\nHere are the results that i found for your query "{text}" 👇</i>'  
    btns = []  
    for file in files:  
