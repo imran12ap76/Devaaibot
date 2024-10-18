@@ -16,14 +16,14 @@ LOGFILE = f"{LOGDIR}/{__name__}_{LOG_DATETIME}_log.txt"
 file_handler = FileHandler(filename=LOGFILE)
 stdout_handler = StreamHandler(stdout)
 
-basicConfig(
+logging.basicConfig(
     format="%(asctime)s - [Alita_Robot] - %(levelname)s - %(message)s",
     level=INFO,
     handlers=[file_handler, stdout_handler],
 )
 
-getLogger("pyrogram").setLevel(WARNING)
-LOGGER = getLogger(__name__)
+logging.getLogger("pyrogram").setLevel(WARNING)
+LOGGER = logging.getLogger(__name__)
 
 
 # Set specific loggers' levels
