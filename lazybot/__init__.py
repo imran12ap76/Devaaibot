@@ -22,14 +22,14 @@ logging.basicConfig(
     handlers=[file_handler, stdout_handler],
 )
 
-logging.getLogger("pyrogram").setLevel(WARNING)
+logging.getLogger("pyrogram").setLevel(INFO)
 LOGGER = logging.getLogger(__name__)
 
 
 # Set specific loggers' levels
-logging.getLogger("imdbpy").setLevel(logging.ERROR)
-logging.getLogger("aiohttp").setLevel(logging.ERROR)
-logging.getLogger("aiohttp.web").setLevel(logging.ERROR)
+logging.getLogger("imdbpy").setLevel(logging.INFO)
+logging.getLogger("aiohttp").setLevel(logging.INFO)
+logging.getLogger("aiohttp.web").setLevel(logging.INFO)
 
 from pyrogram import Client
 from database.ia_filterdb import Media2
