@@ -15,9 +15,9 @@ def is_enabled(value, default):
 SESSION = environ.get('SESSION', 'Media_search')
 API_ID = int(environ.get('API_ID', '25132226'))
 API_HASH = environ.get('API_HASH', '43e35a9f9d711205b155b2c668c5dc22')
-#BOT_TOKEN = "7486990393:AAFW1qcCsYByHdlkfCCnpzLwmVngn-W8YtI"#Spidez_MovieBot Original
+BOT_TOKEN = "7486990393:AAFW1qcCsYByHdlkfCCnpzLwmVngn-W8YtI"#Spidez_MovieBot Original
 #BOT_TOKEN = environ.get('BOT_TOKEN', "7767687655:AAGT70uitfzvBYia4WonBBDkplx-FVdK9c0")#Spidy_Moviebot Test
-BOT_TOKEN = environ.get('BOT_TOKEN', "7816907142:AAHOJ2xr1ugSY5uGYDrlg-q6C9_Ho5h3--8")#SpidyXfilterbot Test
+#BOT_TOKEN = environ.get('BOT_TOKEN', "7816907142:AAHOJ2xr1ugSY5uGYDrlg-q6C9_Ho5h3--8")#SpidyXfilterbot Test
 
 # Bot settings
 CACHE_TIME = int(environ.get('CACHE_TIME', 99999))
