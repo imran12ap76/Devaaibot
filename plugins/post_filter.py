@@ -21,7 +21,7 @@ async def give_filter(client, message):
         return
     await post_filter(client, message)
 
-@Client.on_message(filters.private & filters.text)
+#@Client.on_message(filters.private & filters.text)
 async def givepvt_filter(bot, message):
     if await global_filters(bot, message):
         return
