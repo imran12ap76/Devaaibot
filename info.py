@@ -60,7 +60,7 @@ NO_PORT = "8080"
 APP_NAME = None
 ON_HEROKU = False
 BIND_ADRESS = '0.0.0.0'
-FQDN = "spidy-bots-spidez.e37rx6.easypanel.host"
+FQDN = "spidy-bots-newspidy.e37rx6.easypanel.host"
 URL = "https://{}".format(FQDN) if ON_HEROKU else \
     "http://{}:{}".format(FQDN, PORT)
 SLEEP_THRESHOLD = int(environ.get('SLEEP_THRESHOLD', '60'))
@@ -93,7 +93,7 @@ CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/Spidy_Updates')
 TUTORIAL = environ.get('TUTORIAL', 'https://t.me/')
 IS_TUTORIAL = bool(environ.get('IS_TUTORIAL', False))
 MSG_ALRT = environ.get('MSG_ALRT', 'Hi dear')
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002295925432'))
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002344221399'))
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', '+mvMoUOGE9/1')
 P_TTI_SHOW_OFF = is_enabled((environ.get('P_TTI_SHOW_OFF', "True")), True)
 IMDB = is_enabled((environ.get('IMDB', "True")), True)
