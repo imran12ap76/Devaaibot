@@ -169,7 +169,7 @@ async def send_for_index(bot, message):
     if k.empty:
         return await message.reply('This may be group and iam not a admin of the group.')
 
-    if str(message.from_user.id) in ADMINS:
+    if str(message.from_user.id) not in ADMINS:
         buttons = [
             [
                 InlineKeyboardButton('Index To DB1',
