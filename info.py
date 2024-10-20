@@ -46,11 +46,11 @@ NO_RESULTS_MSG = bool(environ.get("NO_RESULTS_MSG", True))
 
 # MongoDB information
 DATABASE_URI="mongodb+srv://crazy:crazy@cluster0.janerse.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-DATABASE_URI2="mongodb+srv://spm2:spm2@cluster0.ffptx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI2="mongodb+srv://ahamedjamal321:devabot321@cluster0.y6iufgt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 DATABASE_URI3="mongodb+srv://spidy:spidy@cluster0.lfjjvgd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 DATABASE_URI4="mongodb+srv://spm4:spm4@spm4.fkpvd.mongodb.net/?retryWrites=true&w=majority&appName=Spm4"
 DATABASE_URI5="mongodb+srv://spm5:spm5@spm5.twy1d.mongodb.net/?retryWrites=true&w=majority&appName=Spm5"
-DATABASE_NAME = environ.get('DATABASE_NAME', "SpidyMoe")
+DATABASE_NAME = environ.get('DATABASE_NAME', "Devabot")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
 
