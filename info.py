@@ -50,7 +50,7 @@ DATABASE_URI2="mongodb+srv://spm2:spm2@cluster0.ffptx.mongodb.net/?retryWrites=t
 DATABASE_URI3="mongodb+srv://spidy:spidy@cluster0.lfjjvgd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 DATABASE_URI4="mongodb+srv://spm4:spm4@spm4.fkpvd.mongodb.net/?retryWrites=true&w=majority&appName=Spm4"
 DATABASE_URI5="mongodb+srv://spm5:spm5@spm5.twy1d.mongodb.net/?retryWrites=true&w=majority&appName=Spm5"
-DATABASE_NAME = environ.get('DATABASE_NAME', "SpidyMovie")
+DATABASE_NAME = environ.get('DATABASE_NAME', "SpidyMoe")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
 
