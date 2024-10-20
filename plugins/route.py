@@ -7,7 +7,7 @@ import time
 import mimetypes
 from aiohttp.http_exceptions import BadStatusLine
 from lazybot import multi_clients, work_loads
-from pyrogram import Client as LazyPrincessBot
+from pyrogram import Client
 from server.exceptions import FIleNotFound, InvalidHash
 from zzint import StartTime, __version__
 from util.custom_dl import ByteStreamer
