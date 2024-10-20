@@ -17,12 +17,16 @@ logger.setLevel(logging.INFO)
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
+    if message.startswith("/"):
+        return
     if await global_filters(client, message):
         return
     await post_filter(client, message)
 
 @Client.on_message(filters.private & filters.text)
 async def givepvt_filter(bot, message):
+    if message.startswith("/"):
+        return
     if await global_filters(bot, message):
         return
     await post_filter(bot, message)
