@@ -4,6 +4,7 @@ from Script import script
 from info import LOG_CHANNEL, NO_RESULTS_MSG
 from utils import get_poster, SPELL_CHECK
 import logging
+import re
 
 
 logger = logging.getLogger(__name__)
