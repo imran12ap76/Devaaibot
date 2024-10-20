@@ -15,7 +15,7 @@ def is_enabled(value, default):
 SESSION = environ.get('SESSION', 'Media_search')
 API_ID = int(environ.get('API_ID', '25132226'))
 API_HASH = environ.get('API_HASH', '43e35a9f9d711205b155b2c668c5dc22')
-BOT_TOKEN = "7486990393:AAFW1qcCsYByHdlkfCCnpzLwmVngn-W8YtI"#Spidez_MovieBot Original
+BOT_TOKEN = environ.get('BOT_TOKEN', "8036451521:AAEtQ4EU41iDm3PVlLuGyJH_CTlwPaxvTvM")
 #BOT_TOKEN = environ.get('BOT_TOKEN', "7767687655:AAGT70uitfzvBYia4WonBBDkplx-FVdK9c0")#Spidy_Moviebot Test
 #BOT_TOKEN = environ.get('BOT_TOKEN', "7816907142:AAHOJ2xr1ugSY5uGYDrlg-q6C9_Ho5h3--8")#SpidyXfilterbot Test
 
@@ -45,11 +45,11 @@ SUPPORT_CHAT_ID = int(support_chat_id) if support_chat_id and id_pattern.search(
 NO_RESULTS_MSG = bool(environ.get("NO_RESULTS_MSG", True))
 
 # MongoDB information
-DATABASE_URI="mongodb+srv://spidez1:spidez1@cluster0.qdz1z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-DATABASE_URI2="mongodb+srv://spidez2:spidez2@cluster0.lbhxa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-DATABASE_URI3="mongodb+srv://spidez3:spidez3@cluster0.ive5z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-DATABASE_URI4="mongodb+srv://spidez4:spidez4@cluster0.eouaw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-DATABASE_URI5="mongodb+srv://spidez5:spidez5@cluster0.h6u9g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI="mongodb+srv://crazy:crazy@cluster0.janerse.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI2="mongodb+srv://spm2:spm2@cluster0.ffptx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI3="mongodb+srv://spidy:spidy@cluster0.lfjjvgd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URI4="mongodb+srv://spm4:spm4@spm4.fkpvd.mongodb.net/?retryWrites=true&w=majority&appName=Spm4"
+DATABASE_URI5="mongodb+srv://spm5:spm5@spm5.twy1d.mongodb.net/?retryWrites=true&w=majority&appName=Spm5"
 DATABASE_NAME = environ.get('DATABASE_NAME', "SpidyMovie")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
