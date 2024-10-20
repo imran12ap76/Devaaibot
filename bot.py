@@ -77,5 +77,5 @@ class LazyPrincessXBot(Client):
                 current += 1
 
 
-app = LazyPrincessXBot()
-app.run()
+LazyPrincessBot = LazyPrincessXBot()
+LazyPrincessBot.run()
