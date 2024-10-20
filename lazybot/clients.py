@@ -3,7 +3,9 @@ import logging
 from info import *
 from pyrogram import Client
 from util.config_parser import TokenParser
-from . import multi_clients, work_loads, LazyPrincessBot
+from . import multi_clients, work_loads
+from bot import LazyPrincessBot
+
 
 
 async def initialize_clients():
