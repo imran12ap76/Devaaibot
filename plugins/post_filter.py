@@ -10,6 +10,7 @@ from utils import get_size, SPELL_CHECK
 from info import NO_RESULTS_MSG, LOG_CHANNEL
 from Script import script
 import logging
+import re
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
