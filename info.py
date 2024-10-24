@@ -89,9 +89,9 @@ LANGUAGES = ["malayalam", "tamil" ,"english", "hindi", "telugu", "kannada"]
 SEASONS = ["season 1" , "season 2" , "season 3" , "season 4", "season 5" , "season 6" , "season 7" , "season 8" , "season 9" , "season 10"]
 
 #RSUB
-REQ_CHANNEL1 = -1002284964307
-REQ_CHANNEL2 = -1002478712199
-REQ_CHANNEL3 = -1002284109882
+REQ_CHANNEL1 = -1002478712199
+REQ_CHANNEL2 = -1002284109882
+REQ_CHANNEL3 = -1002295488523
 
 LOG_STR = "Current Cusomized Configurations are:-\n"
 LOG_STR += ("IMDB Results are enabled, Bot will be showing imdb details for you queries.\n" if IMDB else "IMBD Results are disabled.\n")
