@@ -48,11 +48,11 @@ DATABASE_NAME = environ.get('DATABASE_NAME', "Devabot")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'devamersalindex')
 
 # Others
-VERIFY = bool(environ.get('VERIFY', False))
-SHORTLINK_URL = environ.get('SHORTLINK_URL', 'moneykamalo.com')
-SHORTLINK_API = environ.get('SHORTLINK_API', '0eefb93e1e3ce9470a7033115ceb1bad13a9d674')
-SECOND_SHORTLINK_URL = environ.get('SECOND_SHORTLINK_URL', 'onepagelink.in')
-SECOND_SHORTLINK_API = environ.get('SECOND_SHORTLINK_API', '91d8f5fb7748094fb2155cc32982d1325c17f244')
+VERIFY = bool(environ.get('VERIFY', True))
+SHORTLINK_URL = environ.get('SHORTLINK_URL', 'krownlinks.com')
+SHORTLINK_API = environ.get('SHORTLINK_API', '404dcaf67fd6a25d0ed059c9afb7f4e67dc90c17')
+SECOND_SHORTLINK_URL = environ.get('SECOND_SHORTLINK_URL', '')
+SECOND_SHORTLINK_API = environ.get('SECOND_SHORTLINK_API', '')
 IS_SHORTLINK = bool(environ.get('IS_SHORTLINK', False))
 DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in environ.get('DELETE_CHANNELS', '0').split()]
 MAX_B_TN = environ.get("MAX_B_TN", "10")
